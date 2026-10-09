@@ -7,7 +7,7 @@ export class ReseauSocial {
         this.bouttonFacebook = this.footer.locator('a[href="https://www.facebook.com/SmeltBlock/"]')
         this.bouttonInstagram = this.footer.locator('a[href="https://www.instagram.com/smeltblock/"]')
         this.bouttonTiktok = this.footer.locator('a[href="https://www.tiktok.com/@smeltblockfr"]')
-        this.bouttonDiscordFooter = this.footer.locator('a[href="https://discord.com/invite/smeltblock"]')
+        this.bouttonDiscordFooter = this.footer.locator('a[href="/discord"]')
         this.bouttonDiscordNav = this.barreNavigation.locator('a[href="/discord"]')
         this.bouttonSiteDeveloppeur = this.footer.locator('a[href="https://maximemougel.dev"]')
 
@@ -59,6 +59,30 @@ export class ReseauSocial {
     }
 }
 
+export class InformationsGenerales {
+constructor(page){
+    this.page = page;
+    this.mentionsLegales = this.page.getByRole('link', { name: 'Mentions légales' })
+    this.cgu = this.page.getByRole('link', { name: 'CGU' })
+    this.cgv = this.page.getByRole('link', { name: 'CGV' })
+    this.confidentialite = this.page.getByRole('link', { name: 'Confidentialité', exact: true })
+}
+async redirectionMentionsLegales() {
+        await this.mentionsLegales.click()
 
+}
 
+async redirectionCGU() {
+        await this.cgu.click()
+}
+
+async redirectionCGV() {
+        await this.cgv.click()
+}
+
+async redirectionConfidentialite() {
+        await this.confidentialite.click()
+}
+
+}
 

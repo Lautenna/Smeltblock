@@ -1,5 +1,7 @@
 import { test, expect, CSS } from '@playwright/test';
 import { ReseauSocial } from "../../pages/components/RedirectionPage";
+import { InformationsGenerales } from '../../pages/components/RedirectionPage';
+import { url } from 'node:inspector';
 
 test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', async ({ page }) => {
 
@@ -59,4 +61,34 @@ test('TC_REDI_002_Redirection_discord_via_la_nav_barre', async ({ page }) => {
 
     })
 })
+
+
+test('TC_REDI_003_Redirection_mention_legal', async ({ page }) => {
+    const myInformationsGenerales = new InformationsGenerales(page);
+    await test.step('Étant donné un visiteur peut accéder aux mentions legales', async () => {
+        await page.goto('');
+        await myInformationsGenerales.redirectionMentionsLegales()
+        await expect(page).toHaveURL("/mentions-legales")
+    })
+
+ await test.step("Étant donné un visiteur peut accéder aux conditions générales d'utilisation", async () => {
+        await page.goto('');
+        await myInformationsGenerales.redirectionCGU()
+        await expect(page).toHaveURL("/cgu")
+    })
+
+ await test.step('Étant donné un visiteur peut accéder aux conditions générales de vente', async () => {
+        await page.goto('');
+        await myInformationsGenerales.redirectionCGV()
+        await expect(page).toHaveURL("/cgv")
+    })
+
+     await test.step('Étant donné un visiteur peut accéder à la politique de confidentialité', async () => {
+        await page.goto('');
+        await myInformationsGenerales.redirectionConfidentialite()
+        await expect(page).toHaveURL("/politique-confidentialite")
+    })
+
+})
+
 
