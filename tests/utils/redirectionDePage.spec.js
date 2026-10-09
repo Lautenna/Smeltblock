@@ -29,15 +29,15 @@ test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', asy
 
     await test.step('Étant donné un visiteur peut cliquer sur le logo tiktok en bas de page', async () => {
         await page.goto('');
-        const instagramPage = await myReseauSocial.redirectionTiktok()
-        await expect(instagramPage).toHaveURL("https://www.tiktok.com/@smeltblockfr")
+        const tiktokPage = await myReseauSocial.redirectionTiktok()
+        await expect(tiktokPage).toHaveURL("https://www.tiktok.com/@smeltblockfr")
 
     })
 
     await test.step('Étant donné un visiteur peut cliquer sur le logo discord en bas de page', async () => {
         await page.goto('');
-        const instagramPage = await myReseauSocial.redirectionDiscord()
-        await expect(instagramPage).toHaveURL("https://discord.com/invite/smeltblock")
+        const discordPage = await myReseauSocial.redirectionDiscord()
+        await expect(discordPage).toHaveURL("https://discord.com/invite/smeltblock")
 
     })
 
@@ -48,3 +48,15 @@ test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', asy
 
     })
 })
+
+
+test('TC_REDI_002_Redirection_discord_via_la_nav_barre', async ({ page }) => {
+    const myReseauSocial = new ReseauSocial(page);
+    await test.step('Étant donné un visiteur peut accéder à Discord via la barre de navigation', async () => {
+        await page.goto('');
+        const bouttonDiscordNav = await myReseauSocial.redirectionDiscordNav()
+        await expect(bouttonDiscordNav).toHaveURL("https://discord.com/invite/smeltblock")
+
+    })
+})
+

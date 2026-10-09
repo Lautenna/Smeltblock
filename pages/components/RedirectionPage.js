@@ -1,11 +1,14 @@
 export class ReseauSocial {
     constructor(page) {
         this.page = page;
+
         this.footer = page.locator("footer")
+        this.barreNavigation = page.locator('nav[aria-label="Navigation principale"]')
         this.bouttonFacebook = this.footer.locator('a[href="https://www.facebook.com/SmeltBlock/"]')
         this.bouttonInstagram = this.footer.locator('a[href="https://www.instagram.com/smeltblock/"]')
         this.bouttonTiktok = this.footer.locator('a[href="https://www.tiktok.com/@smeltblockfr"]')
-        this.bouttonDiscord = this.footer.locator('a[href="https://discord.com/invite/smeltblock"]')
+        this.bouttonDiscordFooter = this.footer.locator('a[href="https://discord.com/invite/smeltblock"]')
+        this.bouttonDiscordNav = this.barreNavigation.locator('a[href="/discord"]')
         this.bouttonSiteDeveloppeur = this.footer.locator('a[href="https://maximemougel.dev"]')
 
     }
@@ -35,14 +38,27 @@ export class ReseauSocial {
     }
     async redirectionDiscord() {
         const pagePromise = this.page.context().waitForEvent('page');
-        await this.bouttonDiscord.click()
+        await this.bouttonDiscordFooter.click()
+        const newPage = await pagePromise;
+        await newPage.waitForLoadState();
+        return newPage;
+    }
+
+    async redirectionDiscordNav() {
+        const pagePromise = this.page.context().waitForEvent('page');
+        await this.bouttonDiscordNav.click()
         const newPage = await pagePromise;
         await newPage.waitForLoadState();
         return newPage;
     }
 
 
+
     async redirectionSiteDeveloppeur() {
         await this.bouttonSiteDeveloppeur.click()
     }
 }
+
+
+
+
