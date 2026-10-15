@@ -35,7 +35,22 @@ test('TC_VOTE_001_Voir_top_vote', async ({ page }) => {
 });
 
 
+test('TC_VOTE_003_Avancé_récompense_de_vote', async ({ page }) => {
+    await test.step('Étant donné un visiteur peut voir le top voteurs de cette semaine', async () => {
+        await page.goto('/vote');
+        let id = ["classement-1", "classement-2", "classement-3", "classement-4", "classement-5"]
+        let pseudo = ["WarnD", "Cana_sucre", "Lautenna", "Yvanor", "LeSupaPoney"]
+        let votes = ["33", "16", "9", "3", "2"]
+
+        for (let p = 0; p < id.length; p++) {
+            expect(await myVotePage.topVoteurs.recupereInfoLigne(id[p])).toEqual([pseudo[p], votes[p]])
+        }
+    })
+});
+
 test.afterAll(async () => {
     await deleteWhere('vote__vote', 'player_uuid', TEST_UUIDS);
     await closeDb();
 });
+
+
