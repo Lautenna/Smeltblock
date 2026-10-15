@@ -5,8 +5,8 @@ test('TC_CONN_001_connexion_id_valide', async ({ page }) => {
     let myAuthentificationVote = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Mincraft valide', async () => {
         await page.goto('/vote');
-        await myAuthentificationVote.connexionValide()
-        await expect(page.locator('#infos')).toContainText('Lautenna');
+        await myAuthentificationVote.connexionValideWarnd()
+        await expect(page.locator('#infos')).toContainText('WarnD');
 
     })
 });

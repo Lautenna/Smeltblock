@@ -26,7 +26,7 @@ export function jddVote() {
         )
     }
 
-    for (let v = 0; v <= 32; v++) {
+    for (let v = 0; v <= 28; v++) {
         votes.push({ player_uuid: UUID_WARND, ip: '10.0.0.3', website_id: 1, reward_given: 1, registered_at: randomRegisteredAt() },
         )
     }

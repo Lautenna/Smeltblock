@@ -4,11 +4,18 @@ export class AuthentificationVote {
         this.page = page;
         this.champsPseudo = page.getByRole('textbox', { name: 'Pseudo Minecraft Java' })
         this.boutonConnexion = page.getByRole('button', { name: 'CONNEXION' })
+        this.boutonDeconnexion = page.getByRole('button', { name: 'DÉCONNEXION' })
 
     }
 
-    async connexionValide() {
-        await this.champsPseudo.fill("Lautenna")
+    async connexionValideWarnd() {
+        await this.champsPseudo.fill("WarnD")
+        await this.boutonConnexion.click()
+
+    }
+
+    async connexionValideYvanor() {
+        await this.champsPseudo.fill("Yvanor")
         await this.boutonConnexion.click()
 
     }
@@ -21,6 +28,11 @@ export class AuthentificationVote {
     async connexionVide() {
         await this.champsPseudo.fill("")
         await this.boutonConnexion.click()
+
+    }
+
+    async deconnexion(){
+          await this.boutonDeconnexion.click();
 
     }
 

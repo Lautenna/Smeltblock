@@ -4,8 +4,9 @@ export class CookiesPopup {
     constructor(page) {
         this.page = page;
         this.popup = page.getByRole('dialog', { name: 'Vos choix de confidentialité' })
-        this.bouttonRefuser = this.popup.getByRole('button', { name: 'Continuer sans Analytics' })
-        this.bouttonAccepter = this.popup.getByRole('button', { name: 'Accepter Analytics' })
+        // this.bouttonRefuser = this.popup.getByRole('button', { name: 'Continuer sans Analytics' })
+        this.bouttonRefuser = this.popup.getByRole('button', { name: 'Continuer sans traceur optionnel' })
+        this.bouttonAccepter = this.popup.getByRole('button', { name: ' Accepter Analytics' })
         this.bouttonCookies = page.getByRole('link', { name: 'Gérer les cookies' })
         this.bouttonConfidentialité = page.getByRole('link', { name: 'Confidentialité' })
     }
