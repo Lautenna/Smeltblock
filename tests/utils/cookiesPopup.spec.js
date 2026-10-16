@@ -28,20 +28,20 @@ test.describe('CookiesPopup', () => {
         await expect(cookiesVisible.popup).toBeVisible()
     })
 
-    test('TC_COOK_004_Refus_des_cookies_enregistre_denied_dans_local_storage', async ({ page }) => {
+    test('TC_COOK_004_Refus_des_cookies_enregistre_denied_dans_cookies', async ({ page }) => {
         await cookiesVisible.refuserCookies()
         await expect(cookiesVisible.popup).not.toBeVisible()
-        const cookiesLocalStorage = await cookiesVisible.recupererCookiesLocalStorage()
-        await expect(JSON.parse(cookiesLocalStorage).status).toEqual('denied')
+        const cookiesRecupere = await cookiesVisible.recupererCookies()
+        await expect(cookiesRecupere.value).toEqual('denied')
     })
-    test('TC_COOK_005_Acceptation_des_cookies_enregistre_granted_dans_local_storage', async ({ page }) => {
+    test('TC_COOK_005_Acceptation_des_cookies_enregistre_granted_dans_cookies', async ({ page }) => {
         await cookiesVisible.accepterCookies()
         await expect(cookiesVisible.popup).not.toBeVisible()
-        const cookiesLocalStorage = await cookiesVisible.recupererCookiesLocalStorage()
-        await expect(JSON.parse(cookiesLocalStorage).status).toEqual('granted')
+        const cookiesRecupere = await cookiesVisible.recupererCookies()
+        await expect(cookiesRecupere.value).toEqual('granted')
     })
     test('TC_COOK_006_Local_storage_vide_avant_tout_choix', async ({ page }) => {
-        const cookiesLocalStorage = await cookiesVisible.recupererCookiesLocalStorage()
-        await expect(cookiesLocalStorage).toBeNull()
+        const cookiesRecupere = await cookiesVisible.recupererCookies()
+        await expect(cookiesRecupere).toBeUndefined()
     })
 })

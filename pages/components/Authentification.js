@@ -19,6 +19,18 @@ export class AuthentificationVote {
         await this.boutonConnexion.click()
 
     }
+    
+     async connexionValideLautenna() {
+        await this.champsPseudo.fill("Lautenna")
+        await this.boutonConnexion.click()
+
+    }
+
+    async connexionValideLesupaponey() {
+        await this.champsPseudo.fill("Lesupaponey")
+        await this.boutonConnexion.click()
+
+    }
 
     async connexionInvalide() {
         await this.champsPseudo.fill("Lechatsauvage")

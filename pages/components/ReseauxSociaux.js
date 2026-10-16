@@ -9,7 +9,9 @@ export class ReseauSocial {
         this.bouttonTiktok = this.footer.locator('a[href="https://www.tiktok.com/@smeltblockfr"]')
         this.bouttonDiscordFooter = this.footer.locator('a[href="/discord"]')
         this.bouttonDiscordNav = this.barreNavigation.locator('a[href="/discord"]')
+        this.bouttonDiscordAccueil = this.page.getByRole('link', { name: ' REJOINS LE DISCORD !' })
         this.bouttonSiteDeveloppeur = this.footer.locator('a[href="https://maximemougel.dev"]')
+        this.boutonWikiAccueil = this.page.getByRole('link', { name: 'CONSULTE LE WIKI !' })
 
     }
 
@@ -36,6 +38,27 @@ export class ReseauSocial {
         await newPage.waitForLoadState();
         return newPage;
     }
+// async redirectionDiscord() {
+//         const pagePromise = this.page.context().waitForEvent('page');
+//         redirectionDiscordFooter()
+//         const newPage = await pagePromise;
+//         await newPage.waitForLoadState();
+//         return newPage;
+//     }
+
+//  async redirectionDiscordFooter() {
+//         await this.bouttonDiscordFooter.click()
+//     }
+
+//     async redirectionDiscordNav() {
+//         await this.bouttonDiscordNav.click()
+//     }
+
+//     async redirectionDiscordAccueil() {
+//         await this.bouttonDiscordAccueil.click()
+//     }
+
+
     async redirectionDiscord() {
         const pagePromise = this.page.context().waitForEvent('page');
         await this.bouttonDiscordFooter.click()
@@ -52,7 +75,17 @@ export class ReseauSocial {
         return newPage;
     }
 
+    async redirectionDiscordAccueil() {
+        const pagePromise = this.page.context().waitForEvent('page');
+        await this.bouttonDiscordAccueil.click()
+        const newPage = await pagePromise;
+        await newPage.waitForLoadState();
+        return newPage;
+    }
 
+    async redirectionPageWiki() {
+        await this.boutonWikiAccueil.click()
+    }
 
     async redirectionSiteDeveloppeur() {
         await this.bouttonSiteDeveloppeur.click()
