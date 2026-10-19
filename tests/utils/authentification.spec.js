@@ -1,5 +1,6 @@
 import { test, expect, CSS } from '@playwright/test';
 import { AuthentificationVote } from '../../pages/components/Authentification'
+import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
 
 test('TC_CONN_001_connexion_id_valide', async ({ page }) => {
     let myAuthentificationVote = new AuthentificationVote(page);
@@ -15,6 +16,7 @@ test('TC_CONN_002_un_id_inconnu_refuse_la_connexion', async ({ page }) => {
     let myAuthentificationVote = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur ne peut pas se connecter avec un pseudo Mincraft invalide', async () => {
         await page.goto('/vote');
+        await (new CookiesPopup(page)).refuserCookies()
         await myAuthentificationVote.connexionInvalide()
         await expect(page.getByRole('alert')).toContainText("Ce joueur n'existe pas.");
 

@@ -102,16 +102,16 @@ test('TC_VOTE_003_Avancé_récompense_de_vote', async ({ page }) => {
 
 });
 
-test('TC_VOTE_004_Reception_des_récompenses_de_vote', async ({ page }) => {
+// test('TC_VOTE_004_Reception_des_récompenses_de_vote', async ({ page }) => {
 
-    await test.step('Étant donné un visiteur réçoit bien ces récompenses de vote', async () => {
+//     await test.step('Étant donné un visiteur réçoit bien ces récompenses de vote', async () => {
 
 
         
 
-    })
+//     })
 
-})
+// })
 
 test.describe('Mes_votes', () => {
 

@@ -1,0 +1,246 @@
+- generic [ref=e1]:
+  - link "Aller au contenu" [ref=e2] [cursor=pointer]:
+    - /url: "#body"
+  - generic [ref=e3]:
+    - navigation "Navigation principale" [ref=e4]:
+      - generic [ref=e5]:
+        - text:  
+        - link "ACCUEIL" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [aria-hidden] [ref=e7]:  
+          - text: ACCUEIL
+        - link "ACTUS" [ref=e8] [cursor=pointer]:
+          - /url: /actus
+          - generic [aria-hidden] [ref=e9]:  
+          - text: ACTUS
+        - link "WIKI" [ref=e10] [cursor=pointer]:
+          - /url: /wiki
+          - generic [aria-hidden] [ref=e11]:  
+          - text: WIKI
+        - link "VOTE" [ref=e12] [cursor=pointer]:
+          - /url: /vote
+          - generic [aria-hidden] [ref=e13]:  
+          - text: VOTE
+        - link "BOUTIQUE" [ref=e14] [cursor=pointer]:
+          - /url: /boutique
+          - generic [aria-hidden] [ref=e15]:  
+          - text: BOUTIQUE
+        - link " DISCORD" [ref=e16] [cursor=pointer]:
+          - /url: /discord
+          - generic [ref=e17]: 
+          - text: DISCORD
+      - group:        
+    - link "  Mise à jour du 26/07/2026" [ref=e18] [cursor=pointer]:
+      - /url: /actus/mise-a-jour-du-26-07-2026
+      - generic [ref=e20]:
+        - generic [ref=e21]:  
+        - text: Mise à jour du 26/07/2026
+  - generic [ref=e26]:
+    - generic [ref=e27]:
+      - heading "Lire le Wiki de SmeltBlock" [level=1] [ref=e28]
+      - paragraph [ref=e29]: Découvre ici les règles et les différentes mécaniques présentes sur le serveur.
+    - main [ref=e30]:
+      - group [ref=e31]:
+        - generic "Sommaire du wiki" [ref=e32] [cursor=pointer]:
+          - generic [aria-hidden] [ref=e34]:  
+        - generic [ref=e35]:
+          - navigation "Pages du wiki" [ref=e36]:
+            - generic [ref=e37]:
+              - generic [ref=e38]:
+                - generic [ref=e39]: 📌 Règlements
+                - list [ref=e40]:
+                  - listitem [ref=e41]:
+                    - link "📘 Règlement" [ref=e42] [cursor=pointer]:
+                      - /url: /wiki/reglement
+                      - generic [ref=e43]: 📘
+                      - text: Règlement
+                  - listitem [ref=e44]:
+                    - link "📗 Constructions" [ref=e45] [cursor=pointer]:
+                      - /url: /wiki/reglements-reglement-constructions
+                      - generic [ref=e46]: 📗
+                      - text: Constructions
+                  - listitem [ref=e47]:
+                    - link "📙 Mots interdits" [ref=e48] [cursor=pointer]:
+                      - /url: /wiki/reglements-reglement-mots-interdits
+                      - generic [ref=e49]: 📙
+                      - text: Mots interdits
+                  - listitem [ref=e50]:
+                    - link "📕 Règlement Discord" [ref=e51] [cursor=pointer]:
+                      - /url: /wiki/reglement-discord
+                      - generic [ref=e52]: 📕
+                      - text: Règlement Discord
+              - generic [ref=e53]:
+                - generic [ref=e54]: COMMENT DÉMARRER SMELTBLOCK
+                - list [ref=e55]:
+                  - listitem [ref=e56]:
+                    - link "🏝️ Ton arrivée" [ref=e57] [cursor=pointer]:
+                      - /url: /wiki/comment-demarrer-smeltblock-ton-arrivee
+                      - generic [ref=e58]: 🏝️
+                      - text: Ton arrivée
+                  - listitem [ref=e59]:
+                    - link "💲 Comment gagner de l'argent" [ref=e60] [cursor=pointer]:
+                      - /url: /wiki/comment-demarrer-smeltblock-comment-gagner-de-largent
+                      - generic [ref=e61]: 💲
+                      - text: Comment gagner de l'argent
+              - generic [ref=e62]:
+                - generic [ref=e63]: 🎮 GamePlay
+                - list [ref=e64]:
+                  - listitem [ref=e65]:
+                    - button "🌴 Le Skyblock  " [ref=e66] [cursor=pointer]:
+                      - generic [ref=e67]:
+                        - generic [ref=e68]: 🌴
+                        - text: Le Skyblock
+                      - generic [ref=e69]:  
+                  - listitem [ref=e70]:
+                    - link "❔ Les quêtes" [ref=e71] [cursor=pointer]:
+                      - /url: /wiki/gameplay-les-quetes
+                      - generic [ref=e72]: ❔
+                      - text: Les quêtes
+                  - listitem [ref=e73]:
+                    - button "⛏️ Les cubes  " [ref=e74] [cursor=pointer]:
+                      - generic [ref=e75]:
+                        - generic [ref=e76]: ⛏️
+                        - text: Les cubes
+                      - generic [ref=e77]:  
+                  - listitem [ref=e78]:
+                    - button "🛠️ Pass  " [ref=e79] [cursor=pointer]:
+                      - generic [ref=e80]:
+                        - generic [ref=e81]: 🛠️
+                        - text: Pass
+                      - generic [ref=e82]:  
+                  - listitem [ref=e83]:
+                    - link "🏆 Tournois" [ref=e84] [cursor=pointer]:
+                      - /url: /wiki/gameplay-tournois
+                      - generic [ref=e85]: 🏆
+                      - text: Tournois
+                  - listitem [ref=e86]:
+                    - button "💰 Les commerces  " [ref=e87] [cursor=pointer]:
+                      - generic [ref=e88]:
+                        - generic [ref=e89]: 💰
+                        - text: Les commerces
+                      - generic [ref=e90]:  
+              - generic [ref=e91]:
+                - generic [ref=e92]: Tuto
+                - list [ref=e93]:
+                  - listitem [ref=e94]:
+                    - link "🥕 Les farms optimisées" [ref=e95] [cursor=pointer]:
+                      - /url: /wiki/tuto-les-farms-optimisees
+                      - generic [ref=e96]: 🥕
+                      - text: Les farms optimisées
+                  - listitem [ref=e97]:
+                    - link "🔗 Les entonnoirs" [ref=e98] [cursor=pointer]:
+                      - /url: /wiki/tuto-les-entonnoirs
+                      - generic [ref=e99]: 🔗
+                      - text: Les entonnoirs
+                  - listitem [ref=e100]:
+                    - link "🛡️ Protection sur l'île" [ref=e101] [cursor=pointer]:
+                      - /url: /wiki/tuto-protection-sur-lile
+                      - generic [ref=e102]: 🛡️
+                      - text: Protection sur l'île
+                  - listitem [ref=e103]:
+                    - link "⚒️ Multi-outils" [ref=e104] [cursor=pointer]:
+                      - /url: /wiki/tuto-multi-outils
+                      - generic [ref=e105]: ⚒️
+                      - text: Multi-outils
+                  - listitem [ref=e106]:
+                    - button "🧙 Le bâton WorldEdit  " [ref=e107] [cursor=pointer]:
+                      - generic [ref=e108]:
+                        - generic [ref=e109]: 🧙
+                        - text: Le bâton WorldEdit
+                      - generic [ref=e110]:  
+                  - listitem [ref=e111]:
+                    - link "🌵 Générateur à cactus" [ref=e112] [cursor=pointer]:
+                      - /url: /wiki/tuto-generateur-a-cactus
+                      - generic [ref=e113]: 🌵
+                      - text: Générateur à cactus
+                  - listitem [ref=e114]:
+                    - link "🔥 Le nether" [ref=e115] [cursor=pointer]:
+                      - /url: /wiki/tuto-le-nether
+                      - generic [ref=e116]: 🔥
+                      - text: Le nether
+                  - listitem [ref=e117]:
+                    - link "🌌 L'End" [ref=e118] [cursor=pointer]:
+                      - /url: /wiki/tuto-lend
+                      - generic [ref=e119]: 🌌
+                      - text: L'End
+                  - listitem [ref=e120]:
+                    - link "🏆 Niveaux compétitifs" [ref=e121] [cursor=pointer]:
+                      - /url: /wiki/tuto-niveaux-competitifs
+                      - generic [ref=e122]: 🏆
+                      - text: Niveaux compétitifs
+                  - listitem [ref=e123]:
+                    - link "🐟 La pêche" [ref=e124] [cursor=pointer]:
+                      - /url: /wiki/tuto-la-peche
+                      - generic [ref=e125]: 🐟
+                      - text: La pêche
+              - generic [ref=e126]:
+                - generic [ref=e127]: 🔖 Autres
+                - list [ref=e128]:
+                  - listitem [ref=e129]:
+                    - link "⛏️ Les skins" [ref=e130] [cursor=pointer]:
+                      - /url: /wiki/autres-les-skins
+                      - generic [ref=e131]: ⛏️
+                      - text: Les skins
+                  - listitem [ref=e132]:
+                    - link "🚩 Le support" [ref=e133] [cursor=pointer]:
+                      - /url: /wiki/autres-le-support
+                      - generic [ref=e134]: 🚩
+                      - text: Le support
+                  - listitem [ref=e135]:
+                    - button "🖇️ Lier son compte  " [ref=e136] [cursor=pointer]:
+                      - generic [ref=e137]:
+                        - generic [ref=e138]: 🖇️
+                        - text: Lier son compte
+                      - generic [ref=e139]:  
+          - button "Réduire le sommaire" [ref=e140] [cursor=pointer]
+      - generic [ref=e143]:
+        - heading "Bienvenue !" [level=2] [ref=e144]
+        - paragraph [ref=e145]: Choisis une catégorie dans le barre à gauche.
+  - contentinfo [ref=e147]:
+    - generic [ref=e152]:
+      - generic [ref=e153]:
+        - generic [ref=e155]:
+          - paragraph [ref=e156]: Smeltblock est un serveur Skyblock français existant depuis 2016.
+          - paragraph [ref=e157]:
+            - text: Fièrement hébergé par notre
+            - link "partenaire" [ref=e158]:
+              - /url: /partenaires
+            - link "Minestrator" [ref=e159] [cursor=pointer]:
+              - /url: https://minestrator.com/
+            - text: (-10% avec le code "SMELTBLOCK")
+        - generic [ref=e160]:
+          - link "Mentions légales" [ref=e161] [cursor=pointer]:
+            - /url: /mentions-legales
+          - link "CGU" [ref=e162] [cursor=pointer]:
+            - /url: /cgu
+          - link "CGV" [ref=e163] [cursor=pointer]:
+            - /url: /cgv
+          - link "Confidentialité" [ref=e164] [cursor=pointer]:
+            - /url: /politique-confidentialite
+      - separator [ref=e165]
+      - generic [ref=e167]:
+        - generic [ref=e168]:
+          - link "Discord" [ref=e169] [cursor=pointer]:
+            - /url: /discord
+            - generic [ref=e170]: 
+          - link "Instagram" [ref=e171] [cursor=pointer]:
+            - /url: https://www.instagram.com/smeltblock/
+            - generic [ref=e172]: 
+          - link "Tiktok" [ref=e173] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@smeltblockfr
+            - generic [ref=e174]: 
+          - link "Facebook" [ref=e175] [cursor=pointer]:
+            - /url: https://www.facebook.com/SmeltBlock/
+            - generic [ref=e176]: 
+        - generic [ref=e177]: © 2026 Smeltblock - Tous droits réservés.
+        - link "Site réalisé par Maxime Mougel" [ref=e179] [cursor=pointer]:
+          - /url: https://maximemougel.dev
+  - generic:      
+  - dialog [ref=e180]:
+    - generic [ref=e181]:
+      - paragraph [ref=e182]: Autoriser les cookies supplémentaires ?
+      - paragraph [ref=e183]: Les cookies essentiels assurent le fonctionnement du site. « Tout accepter » autorise les traceurs de mesure d’audience (Google Analytics) et de conversions publicitaires (Google Ads). « Tout refuser » bloque ces deux finalités. Vous pouvez modifier votre choix à tout moment.
+      - button "Tout accepter" [active] [ref=e184] [cursor=pointer]
+      - button "Tout refuser" [ref=e185] [cursor=pointer]
+      - link "En savoir plus sur les cookies" [ref=e186] [cursor=pointer]:
+        - /url: /politique-confidentialite#cookies
