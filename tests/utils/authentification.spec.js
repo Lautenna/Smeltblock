@@ -6,6 +6,7 @@ test('TC_CONN_001_connexion_id_valide', async ({ page }) => {
     let authentification = new Authentification(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await page.goto('/vote');
+        await (new CookiesPopup(page)).refuserCookies()
         await authentification.connexionValideWarnd()
         await expect(page.locator('#infos')).toContainText('WarnD');
 

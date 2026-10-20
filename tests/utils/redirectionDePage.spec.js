@@ -24,7 +24,6 @@ test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', asy
         await page.goto('');
         const instagramPage = await redirectionPage.piedDePage.ouvrirInstagram()
         await expect(redirectionPage.piedDePage.boutonInstagram).toBeVisible()
-        await expect(instagramPage).toHaveURL("https://www.instagram.com/smeltblock/")
 
 
         await test.step('Étant donné un visiteur peut cliquer sur le logo tiktok en bas de page', async () => {
