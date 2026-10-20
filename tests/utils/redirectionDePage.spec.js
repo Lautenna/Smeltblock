@@ -1,6 +1,5 @@
-import { test, expect, CSS } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { RedirectionPage } from "../../pages/RedirectionPage";
-// import { url } from 'node:inspector';
 
 test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', async ({ page }) => {
 
@@ -11,41 +10,32 @@ test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', asy
         await expect(facebookPage).toHaveURL("https://www.facebook.com/SmeltBlock/")
 
     })
-    // a commenté car demande de login
-    // await test.step('Étant donné un visiteur peut cliquer sur le logo instagram en bas de page', async () => {
-    //     await page.goto('');
-    //     const instagramPage = await redirectionPage.piedDePage.ouvrirInstagram()
-    //     await expect(instagramPage).toHaveURL("https://www.instagram.com/smeltblock/")
 
-    // })
-
-    // a commenté 23,25,26 si problème connexion
     await test.step('Étant donné un visiteur peut cliquer sur le logo instagram en bas de page', async () => {
         await page.goto('');
         const instagramPage = await redirectionPage.piedDePage.ouvrirInstagram()
-        await expect(redirectionPage.piedDePage.boutonInstagram).toBeVisible()
+        await expect(instagramPage).toHaveURL(/instagram\.com/)
+    })
 
+    await test.step('Étant donné un visiteur peut cliquer sur le logo tiktok en bas de page', async () => {
+        await page.goto('');
+        const tiktokPage = await redirectionPage.piedDePage.ouvrirTiktok()
+        await expect(tiktokPage).toHaveURL("https://www.tiktok.com/@smeltblockfr")
 
-        await test.step('Étant donné un visiteur peut cliquer sur le logo tiktok en bas de page', async () => {
-            await page.goto('');
-            const tiktokPage = await redirectionPage.piedDePage.ouvrirTiktok()
-            await expect(tiktokPage).toHaveURL("https://www.tiktok.com/@smeltblockfr")
+    })
 
-        })
+    await test.step('Étant donné un visiteur peut cliquer sur le logo discord en bas de page', async () => {
+        await page.goto('');
+        const discordPage = await redirectionPage.piedDePage.ouvrirDiscord()
+        await expect(discordPage).toHaveURL("https://discord.com/invite/smeltblock")
 
-        await test.step('Étant donné un visiteur peut cliquer sur le logo discord en bas de page', async () => {
-            await page.goto('');
-            const discordPage = await redirectionPage.piedDePage.ouvrirDiscord()
-            await expect(discordPage).toHaveURL("https://discord.com/invite/smeltblock")
+    })
 
-        })
+    await test.step('Étant donné un visiteur peut cliquer sur le logo site du developpeur en bas de page', async () => {
+        await page.goto('');
+        await redirectionPage.piedDePage.ouvrirSiteDeveloppeur()
+        await expect(page).toHaveURL("https://maximemougel.dev/")
 
-        await test.step('Étant donné un visiteur peut cliquer sur le logo site du developpeur en bas de page', async () => {
-            await page.goto('');
-            await redirectionPage.piedDePage.ouvrirSiteDeveloppeur()
-            await expect(page).toHaveURL("https://maximemougel.dev/")
-
-        })
     })
 })
 

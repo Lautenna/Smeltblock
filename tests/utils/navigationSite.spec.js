@@ -48,6 +48,7 @@ test('TC_NAVI_002_Navigation_sur_la_page_wiki', async ({ page }) => {
 })
 
 
+
 test('TC_NAVI_003_Navigation_sur_la_page_actus', async ({ page }) => {
     await page.goto('/actus');
     const actusPage = new ActusPage(page);

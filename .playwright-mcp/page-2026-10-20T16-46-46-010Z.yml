@@ -1,0 +1,276 @@
+- generic [active] [ref=e1]:
+  - link "Aller au contenu" [ref=e2] [cursor=pointer]:
+    - /url: "#body"
+  - generic [ref=e3]:
+    - navigation "Navigation principale" [ref=e4]:
+      - generic [ref=e5]:
+        - text:  
+        - link "ACCUEIL" [ref=e6] [cursor=pointer]:
+          - /url: /
+          - generic [aria-hidden] [ref=e7]:  
+          - text: ACCUEIL
+        - link "ACTUS" [ref=e8] [cursor=pointer]:
+          - /url: /actus
+          - generic [aria-hidden] [ref=e9]:  
+          - text: ACTUS
+        - link "WIKI" [ref=e10] [cursor=pointer]:
+          - /url: /wiki
+          - generic [aria-hidden] [ref=e11]:  
+          - text: WIKI
+        - link "VOTE" [ref=e12] [cursor=pointer]:
+          - /url: /vote
+          - generic [aria-hidden] [ref=e13]:  
+          - text: VOTE
+        - link "BOUTIQUE" [ref=e14] [cursor=pointer]:
+          - /url: /boutique
+          - generic [aria-hidden] [ref=e15]:  
+          - text: BOUTIQUE
+        - link " DISCORD" [ref=e16] [cursor=pointer]:
+          - /url: /discord
+          - generic [ref=e17]: 
+          - text: DISCORD
+      - group:        
+    - link "  Mise à jour du 26/07/2026" [ref=e18] [cursor=pointer]:
+      - /url: /actus/mise-a-jour-du-26-07-2026
+      - generic [ref=e20]:
+        - generic [ref=e21]:  
+        - text: Mise à jour du 26/07/2026
+  - main [ref=e27]:
+    - generic [ref=e28]:
+      - heading "Vote pour SmeltBlock" [level=1] [ref=e29]
+      - paragraph [ref=e30]: Voter pour nous sur les sites de liste de serveurs nous permet d'être plus visible et de se développer.
+    - generic [ref=e31]:
+      - generic [ref=e33]:
+        - generic [ref=e34]:
+          - generic [ref=e35]:
+            - heading "Mes récompenses de vote" [level=2] [ref=e36]
+            - paragraph [ref=e37]: Connectez-vous pour consulter vos récompenses.
+          - generic [ref=e38]:
+            - generic [ref=e39]: Reset dans
+            - generic [ref=e40]: "-j --h--m"
+        - list [ref=e41]:
+          - listitem [ref=e42]:
+            - generic [ref=e43]: SUIVANT
+            - generic [ref=e44]:  
+            - generic [ref=e48]: 8 votes
+            - generic [ref=e49]: 10 Smeltcoins
+            - generic [ref=e50]: 1 caisse niveau 2
+          - listitem [ref=e51]:
+            - generic [ref=e52]:  
+            - generic [ref=e56]: 30 votes
+            - generic [ref=e57]: 25 Smeltcoins
+            - generic [ref=e58]: 1 caisse niveau 3
+          - listitem [ref=e59]:
+            - generic [ref=e60]:  
+            - generic [ref=e64]: 50 votes
+            - generic [ref=e65]: 50 Smeltcoins
+            - generic [ref=e66]: 2 caisses niveau 3
+          - listitem [ref=e67]:
+            - generic [ref=e68]:  
+            - generic [ref=e72]: 75 votes
+            - generic [ref=e73]: 75 Smeltcoins
+            - generic [ref=e74]: 1 caisse niveau 4
+          - listitem [ref=e75]:
+            - generic [ref=e76]:  
+            - generic [ref=e80]: 100 votes
+            - generic [ref=e81]: 100 Smeltcoins
+            - generic [ref=e82]: 1 caisse niveau 5
+          - listitem [ref=e83]:
+            - generic [ref=e84]:  
+            - generic [ref=e88]: 150 votes
+            - generic [ref=e89]: 200 Smeltcoins
+            - generic [ref=e90]: 1 caisse ultra-rare
+      - generic [ref=e91]:
+        - heading "MES VOTES" [level=2] [ref=e92]
+        - generic [ref=e93]:
+          - generic [ref=e95]:
+            - textbox "Pseudo Minecraft Java" [ref=e97]:
+              - /placeholder: Ton pseudo ici…
+            - button "CONNEXION" [ref=e99] [cursor=pointer]:
+              - text: CONNEXION
+              - generic [aria-hidden] [ref=e100]:  
+            - text:  
+          - generic [ref=e101]:
+            - generic [ref=e102]:
+              - generic [ref=e103]:
+                - generic [ref=e104]: Rang
+                - generic [ref=e105]: "##"
+              - generic [ref=e106]:
+                - img "Skin du joueur votant pour le meilleur Skyblock" [ref=e108]
+                - generic [ref=e109]:
+                  - generic [ref=e110]: Steve
+                  - generic [ref=e111]: 0 votes cette semaine !
+            - generic:
+              - generic:
+                - generic:
+                  - generic: Site 1
+                  - generic: serveursminecraft.org
+                - generic:
+                  - button "VOTER":
+                    - text: VOTER
+                    - generic [aria-hidden]:  
+              - generic:
+                - generic:
+                  - generic: Site 2
+                  - generic: serveur-minecraft.com
+                - generic:
+                  - button "VOTER":
+                    - text: VOTER
+                    - generic [aria-hidden]:  
+              - generic:
+                - generic:
+                  - generic: Site 3
+                  - generic: serveur-minecraft-vote.fr
+                - generic:
+                  - button "VOTER":
+                    - text: VOTER
+                    - generic [aria-hidden]:  
+              - generic:
+                - generic:
+                  - generic: Site 4
+                  - generic: serveur-prive.net
+                - generic:
+                  - button "VOTER":
+                    - text: VOTER
+                    - generic [aria-hidden]:  
+            - generic [ref=e112]:
+              - paragraph [ref=e113]: Tu peux voter sans être connecté en jeu.
+              - paragraph [ref=e114]: Tu recevras tes récompenses à ta prochaine connexion !
+      - generic [ref=e115]:
+        - heading "TOP VOTEURS" [level=2] [ref=e116]
+        - generic [ref=e117]:
+          - generic [ref=e118]:
+            - tab "Semaine préc." [ref=e119] [cursor=pointer]
+            - tab "Cette semaine" [selected] [ref=e120] [cursor=pointer]
+            - tab "Toujours" [ref=e121] [cursor=pointer]
+          - generic [ref=e122]:
+            - generic [ref=e123]:
+              - generic [ref=e124]: "1"
+              - generic [ref=e125]:
+                - generic [ref=e126]: WarnD
+                - generic [ref=e128]: 29 votes
+              - generic [ref=e129]:
+                - generic [ref=e130]:  
+                - text: 2000 SmeltCoins
+            - generic [ref=e131]:
+              - generic [ref=e132]: "2"
+              - generic [ref=e133]:
+                - generic [ref=e134]: Cana_sucre
+                - generic [ref=e136]: 16 votes
+              - generic [ref=e137]:
+                - generic [ref=e138]:  
+                - text: 1500 SmeltCoins
+            - generic [ref=e139]:
+              - generic [ref=e140]: "3"
+              - generic [ref=e141]:
+                - generic [ref=e142]: Lautenna
+                - generic [ref=e144]: 9 votes
+              - generic [ref=e145]:
+                - generic [ref=e146]:  
+                - text: 1250 SmeltCoins
+            - generic [ref=e147]:
+              - generic [ref=e148]: "4"
+              - generic [ref=e149]:
+                - generic [ref=e150]: LeSupaPoney
+                - generic [ref=e152]: 3 votes
+              - generic [ref=e153]:
+                - generic [ref=e154]:  
+                - text: 1000 SmeltCoins
+            - generic [ref=e155]:
+              - generic [ref=e156]: "5"
+              - generic [ref=e157]:
+                - generic [ref=e158]: Yvanor
+                - generic [ref=e160]: 3 votes
+              - generic [ref=e161]:
+                - generic [ref=e162]:  
+                - text: 750 Smeltcoins
+            - generic [ref=e163]: …
+          - generic [ref=e164]: Page 1
+      - generic [ref=e166]:
+        - heading "FAQ" [level=2] [ref=e167]
+        - generic [ref=e168]:
+          - generic [ref=e169]:
+            - group "Comment puis-je voter pour le serveur ?" [ref=e170] [cursor=pointer]:
+              - generic "Comment puis-je voter pour le serveur ? +" [ref=e171]:
+                - text: Comment puis-je voter pour le serveur ?
+                - generic [ref=e172]: +
+            - group "Quelles sont les récompenses de vote ?" [ref=e173] [cursor=pointer]:
+              - generic "Quelles sont les récompenses de vote ? +" [ref=e174]:
+                - text: Quelles sont les récompenses de vote ?
+                - generic [ref=e175]: +
+            - group "Pourquoi voter pour le serveur ?" [ref=e176] [cursor=pointer]:
+              - generic "Pourquoi voter pour le serveur ? +" [ref=e177]:
+                - text: Pourquoi voter pour le serveur ?
+                - generic [ref=e178]: +
+            - group "Qu'est-ce qui est interdit ?" [ref=e179] [cursor=pointer]:
+              - generic "Qu'est-ce qui est interdit ? +" [ref=e180]:
+                - text: Qu'est-ce qui est interdit ?
+                - generic [ref=e181]: +
+          - generic [ref=e182]:
+            - generic [ref=e183]: PREMIÈRE FOIS ? AIDE VIDÉO 👇
+            - iframe [ref=e184] [cursor=pointer]:
+              - generic [ref=f1e1]:
+                - generic "Lecteur vidéo YouTube" [ref=f1e3]
+                - generic [ref=f1e5]:
+                  - generic:
+                    - generic:
+                      - generic [ref=f1e6] [cursor=pointer]
+                      - button "Regarder la vidéo" [ref=f1e10] [cursor=pointer]
+                      - button "Masquer les commandes du lecteur" [ref=f1e12] [cursor=pointer]
+                      - generic [ref=f1e14]:
+                        - generic [ref=f1e21]:
+                          - generic [ref=f1e22]:
+                            - link "Voter sur SmeltBlock" [ref=f1e23] [cursor=pointer]:
+                              - /url: https://www.youtube.com/watch?v=O63E3poGWSk
+                            - link "Warn D" [ref=f1e24] [cursor=pointer]:
+                              - /url: /channel/UCHnuUUwwNUveSF28S9hlHkw
+                          - generic [ref=f1e26]:
+                            - button [ref=f1e27] [cursor=pointer]
+                            - generic [ref=f1e29]:
+                              - generic: Warn D
+                              - generic: 86 abonnés
+                        - generic [ref=f1e30]:
+                          - button "Copier le lien" [ref=f1e33] [cursor=pointer]
+                          - link "Regarder sur YouTube" [ref=f1e44] [cursor=pointer]:
+                            - /url: https://www.youtube.com/watch?v=O63E3poGWSk
+                            - generic [ref=f1e45]: Regarder sur
+  - contentinfo [ref=e186]:
+    - generic [ref=e191]:
+      - generic [ref=e192]:
+        - generic [ref=e194]:
+          - paragraph [ref=e195]: Smeltblock est un serveur Skyblock français existant depuis 2016.
+          - paragraph [ref=e196]:
+            - text: Fièrement hébergé par notre
+            - link "partenaire" [ref=e197]:
+              - /url: /partenaires
+            - link "Minestrator" [ref=e198] [cursor=pointer]:
+              - /url: https://minestrator.com/
+            - text: (-10% avec le code "SMELTBLOCK")
+        - generic [ref=e199]:
+          - link "Mentions légales" [ref=e200] [cursor=pointer]:
+            - /url: /mentions-legales
+          - link "CGU" [ref=e201] [cursor=pointer]:
+            - /url: /cgu
+          - link "CGV" [ref=e202] [cursor=pointer]:
+            - /url: /cgv
+          - link "Confidentialité" [ref=e203] [cursor=pointer]:
+            - /url: /politique-confidentialite
+      - separator [ref=e204]
+      - generic [ref=e206]:
+        - generic [ref=e207]:
+          - link "Discord" [ref=e208] [cursor=pointer]:
+            - /url: /discord
+            - generic [ref=e209]: 
+          - link "Instagram" [ref=e210] [cursor=pointer]:
+            - /url: https://www.instagram.com/smeltblock/
+            - generic [ref=e211]: 
+          - link "Tiktok" [ref=e212] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@smeltblockfr
+            - generic [ref=e213]: 
+          - link "Facebook" [ref=e214] [cursor=pointer]:
+            - /url: https://www.facebook.com/SmeltBlock/
+            - generic [ref=e215]: 
+        - generic [ref=e216]: © 2026 Smeltblock - Tous droits réservés.
+        - link "Site réalisé par Maxime Mougel" [ref=e218] [cursor=pointer]:
+          - /url: https://maximemougel.dev
+  - generic:      
