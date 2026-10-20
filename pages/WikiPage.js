@@ -7,15 +7,15 @@ export class WikiPage {
         this.ongletSupport = page.getByRole('link', { name: '🚩 Le support' })
     }
 
-    async boutonReglement() {
+    async ouvrirOngletReglement() {
         await this.ongletReglement.click()
     }
 
-    async boutonQuetes() {
+    async ouvrirOngletQuetes() {
         await this.ongletQuetes.click()
     }
 
-    async boutonSupport() {
+    async ouvrirOngletSupport() {
         await this.ongletSupport.click()
     }
 

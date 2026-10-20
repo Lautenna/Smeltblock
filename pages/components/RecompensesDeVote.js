@@ -14,14 +14,14 @@ export class RecompensesDeVote {
         return this.palier(numero).locator('.size-xl')
     }
 
-    async estDebloque(numero) {
+    async assertDebloque(numero) {
         await expect(this.pastille(numero)).toHaveClass(/bg-brand-accent/)
     }
 
-    async estVerrouille(numero) {
+    async assertVerrouille(numero) {
         await expect(this.pastille(numero)).toHaveClass(/bg-surface-tint2/)
     }
-    async estEnCours(numero) {
+    async assertEnCours(numero) {
     await expect(this.pastille(numero)).toHaveClass(/bg-brand-primary/)
 }
 }

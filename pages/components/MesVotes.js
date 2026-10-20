@@ -15,4 +15,6 @@ export class MesVotes {
     async cliquerSurLeSite() {
         await this.premierSite.click()
     }
+
 }
+

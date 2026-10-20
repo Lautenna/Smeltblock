@@ -1,6 +1,6 @@
-import { test, expect, CSS } from '@playwright/test'
+import { test, expect } from '@playwright/test'
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
-import { beforeEach } from 'node:test';
+
 
 test.describe('CookiesPopup', () => {
     let cookiesVisible;
@@ -40,7 +40,7 @@ test.describe('CookiesPopup', () => {
         const cookiesRecupere = await cookiesVisible.recupererCookies()
         await expect(cookiesRecupere.value).toEqual('granted')
     })
-    test('TC_COOK_006_Local_storage_vide_avant_tout_choix', async ({ page }) => {
+    test('TC_COOK_006_Cookies_vide_avant_tout_choix', async ({ page }) => {
         const cookiesRecupere = await cookiesVisible.recupererCookies()
         await expect(cookiesRecupere).toBeUndefined()
     })

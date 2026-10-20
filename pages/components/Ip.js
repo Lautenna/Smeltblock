@@ -2,12 +2,12 @@ export class Ip {
     constructor(page) {
         this.page = page;
 
-        this.BoutonIp = page.getByRole('banner').getByRole('button', { name: 'Copier l’adresse du serveur' })
+        this.boutonIp = page.getByRole('banner').getByRole('button', { name: 'Copier l’adresse du serveur' })
         
 
     }
 
-     async CopierIp() {
-        await this.BoutonIp.click()
+     async copierIp() {
+        await this.boutonIp.click()
     }
 }

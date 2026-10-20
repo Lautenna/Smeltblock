@@ -9,19 +9,19 @@ export class ActusPage {
         this.ongletTous = page.locator('label', { hasText: 'Tous' })
     }
 
-    async boutonMiseAJour() {
+    async ouvrirOngletMiseAJour() {
         await this.ongletMiseAJour.check()
     }
-    async boutonClassement() {
+    async ouvrirOngletClassement() {
         await this.ongletClassement.check()
     }
-    async boutonsEvenement() {
+    async ouvrirOngletEvenement() {
         await this.ongletEvenement.check()
     }
-    async boutonTutoriel() {
+    async ouvrirOngletTutoriel() {
         await this.ongletTutoriel.check()
     }
-    async boutonTous() {
+    async ouvrirOngletTous() {
         await this.ongletTous.check()
     }
 }

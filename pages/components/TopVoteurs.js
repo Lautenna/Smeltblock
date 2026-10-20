@@ -6,11 +6,11 @@ export class TopVoteurs {
 
     }
 
-    async recupereInfoLigne(id) {
-        const ligne = this.page.getByTestId(id);
+    async recupererInfoLigne(testId) {
+        const ligne = this.page.getByTestId(testId);
         const pseudo = await ligne.locator('.font-minecraft').textContent();
         const nbVotes = await ligne.locator('.text-sm').textContent(); 
-        return [pseudo.trim(), nbVotes.replace(/\D/g, '')];
+        return { pseudo: pseudo.trim(), nbVotes: nbVotes.replace(/\D/g, '') };
 
 
     }
