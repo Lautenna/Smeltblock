@@ -5,7 +5,6 @@ import { RedirectionPage } from "../../pages/RedirectionPage";
 import { url } from 'node:inspector';
 import { WikiPage } from '../../pages/WikiPage';
 import { ActusPage } from '../../pages/ActusPage.js';
-test.use({ permissions: ['clipboard-write', 'clipboard-read'] })
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
 
 test.beforeEach(async ({ page }) => {
@@ -88,10 +87,16 @@ test('TC_NAVI_004_IP_page_accueil', async ({ page }) => {
 
     await test.step("Étant donné un visiteur peut copier l'IP", async () => {
         const myIp = new Ip(page)
-        await myIp.CopierIp()
-        const texteCopie = await page.evaluate(() => navigator.clipboard.readText())
-        await expect(texteCopie).toBe('play.smeltblock.com')
+        await page.evaluate(() => {
+            const original = navigator.clipboard.writeText.bind(navigator.clipboard)
+            navigator.clipboard.writeText = async (texte) => {
+                window.__copie = texte
+                return original(texte)
+            }
+        })
 
+        await myIp.CopierIp()
+        await expect.poll(() => page.evaluate(() => window.__copie)).toBe('play.smeltblock.com')
     })
 
 })

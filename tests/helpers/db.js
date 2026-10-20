@@ -44,3 +44,16 @@ export async function insertMany(table, rows) {
 export async function deleteWhere(table, column, values) {
   return getPool().query(`DELETE FROM \`${table}\` WHERE \`${column}\` IN (?)`, [values]);
 }
+
+// Retourne la dernière ligne d'une table (objet) ou undefined si la table est vide.
+// orderBy : colonne qui sert à définir « la dernière » (id auto-incrémenté ou date)
+// where   : filtre optionnel { colonne: valeur }, ex. { player_uuid: '...' }
+export async function selectLast(table, orderBy = 'id', where = {}) {
+  const cols = Object.keys(where);
+  const clause = cols.length ? ` WHERE ${cols.map(c => `\`${c}\` = ?`).join(' AND ')}` : '';
+  const rows = await getPool().query(
+    `SELECT * FROM \`${table}\`${clause} ORDER BY \`${orderBy}\` DESC LIMIT 1`,
+    cols.map(c => where[c])
+  );
+  return rows[0];
+}

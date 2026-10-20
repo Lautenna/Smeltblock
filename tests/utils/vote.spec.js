@@ -1,6 +1,6 @@
 import { test, expect, CSS } from '@playwright/test';
-import { jddVote, TEST_UUIDS } from '../data_test/vote.data';
-import { insertMany, deleteWhere, closeDb } from '../helpers/db.js';
+import { jddVote, TEST_UUIDS, UUID_WARND } from '../data_test/vote.data';
+import { insertMany, deleteWhere, closeDb, selectLast } from '../helpers/db.js';
 import { VotePage } from '../../pages/VotePage.js';
 import { AuthentificationVote } from '../../pages/components/Authentification'
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
@@ -9,6 +9,9 @@ let myVotePage;
 
 
 test.beforeAll(async () => {
+    await deleteWhere('vote__vote', 'player_uuid', TEST_UUIDS);
+    await deleteWhere('vote__milestone_claim', 'player_uuid', TEST_UUIDS);
+
     await insertMany('vote__vote', jddVote())
 });
 
@@ -28,13 +31,6 @@ test('TC_VOTE_001_Voir_top_vote', async ({ page }) => {
             expect(await myVotePage.topVoteurs.recupereInfoLigne(id[p])).toEqual([pseudo[p], votes[p]])
         }
     })
-});
-
-
-
-test.afterAll(async () => {
-    await deleteWhere('vote__vote', 'player_uuid', TEST_UUIDS);
-    await closeDb();
 });
 
 
@@ -68,7 +64,7 @@ test('TC_VOTE_002_Bloquage_vote_même_IP', async ({ page }) => {
 })
 
 
-test('TC_VOTE_003_Avancé_récompense_de_vote', async ({ page }) => {
+test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) => {
 
     let myAuthentificationVote = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
@@ -100,18 +96,34 @@ test('TC_VOTE_003_Avancé_récompense_de_vote', async ({ page }) => {
         await myVotePage.recompensesDeVote.estEnCours(3)
     })
 
+    await test.step('Étant donné un visiteur réçoit bien ces récompenses de vote', async () => {
+        const dernierPalierDeVote = await selectLast('vote__milestone_claim')
+        await expect(dernierPalierDeVote.player_uuid).toEqual(UUID_WARND)
+        await expect(dernierPalierDeVote.threshold_value).toEqual(30)
+
+    })
+
 });
 
-// test('TC_VOTE_004_Reception_des_récompenses_de_vote', async ({ page }) => {
+test('TC_VOTE_004_Reception_des_récompenses_de_vote_top_vote', async ({ page }) => {
+    await test.step('Étant donné un visiteur peut voir le top voteurs de cette semaine', async () => {
+        let id = ["classement-1", "classement-2", "classement-3", "classement-4", "classement-5"]
+        let pseudo = ["WarnD", "Cana_sucre", "Lautenna", "Yvanor", "LeSupaPoney"]
+        let votes = ["29", "16", "9", "3", "2"]
 
-//     await test.step('Étant donné un visiteur réçoit bien ces récompenses de vote', async () => {
+        for (let p = 0; p < id.length; p++) {
+            expect(await myVotePage.topVoteurs.recupereInfoLigne(id[p])).toEqual([pseudo[p], votes[p]])
+        }
+    })
+
+    await test.step('Étant donné un visiteur réçoit bien ces récompenses de top vote', async () => {
 
 
-        
 
-//     })
 
-// })
+    })
+
+})
 
 test.describe('Mes_votes', () => {
 
@@ -123,13 +135,7 @@ test.describe('Mes_votes', () => {
         })
     })
 
-
-
-
-
-
-
-    test('TC_VOTE_004_Mes_votes_not_found', async ({ page }) => {
+    test('TC_VOTE_005_Mes_votes_not_found', async ({ page }) => {
 
         await test.step('Étant donné un visiteur a voté, mais pas encore validé ou trouvé', async () => {
             const response = await myVotePage.mesVotes.simulerSession('not_found')
@@ -144,7 +150,6 @@ test.describe('Mes_votes', () => {
             await expect(myVotePage.mesVotes.premierSite.getByText('Vote non trouvé')).toBeVisible()
         })
     })
-
 
     test('TC_VOTE_006_Mes_votes_unavailable', async ({ page }) => {
 
@@ -181,10 +186,6 @@ test.describe('Mes_votes', () => {
 
 })
 
-
-
-
 test.afterAll(async () => {
-    await deleteWhere('vote__vote', 'player_uuid', TEST_UUIDS);
     await closeDb();
 });

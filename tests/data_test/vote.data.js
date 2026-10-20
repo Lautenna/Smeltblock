@@ -1,9 +1,9 @@
 
-const UUID_YVANOR = '22b9a9ba74d84ee6acff70fd2b9cf924';
-const UUID_LAUTENNA = '888ab262375f45098fdabbd001febffa';
-const UUID_WARND = 'eb69cef08d6b49bb9575e751185834b2';
-const UUID_LESUPAPONEY = '986db577680b402bb55f50471c050fb2';
-const UUID_CANASUCRE = 'f8cbe114476c43ad90af1a64986200dc';
+export const UUID_YVANOR = '22b9a9ba74d84ee6acff70fd2b9cf924';
+export const UUID_LAUTENNA = '888ab262375f45098fdabbd001febffa';
+export const UUID_WARND = 'eb69cef08d6b49bb9575e751185834b2';
+export const UUID_LESUPAPONEY = '986db577680b402bb55f50471c050fb2';
+export const UUID_CANASUCRE = 'f8cbe114476c43ad90af1a64986200dc';
 
 // Une seconde d'écart entre chaque vote : la contrainte uniq_vote_dedup refuse deux votes du même joueur à la même seconde
 let decalage = 0;
