@@ -5,8 +5,8 @@ on:
   pull_request:
     branches: [ main, master ]
 concurrency:
-  group: playwright
-  cancel-in-progress: false
+  group: playwright-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   test:
     timeout-minutes: 60
