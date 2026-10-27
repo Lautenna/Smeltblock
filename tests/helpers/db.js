@@ -45,6 +45,18 @@ export async function deleteWhere(table, column, values) {
   return getPool().query(`DELETE FROM \`${table}\` WHERE \`${column}\` IN (?)`, [values]);
 }
 
+// Supprime la dernière ligne d'une table (même logique que selectLast) et retourne { affectedRows }
+// orderBy : colonne qui sert à définir « la dernière » (id auto-incrémenté ou date)
+// where   : filtre optionnel { colonne: valeur }, ex. { player_uuid: '...' }
+export async function deleteLast(table, orderBy = 'id', where = {}) {
+  const cols = Object.keys(where);
+  const clause = cols.length ? ` WHERE ${cols.map(c => `\`${c}\` = ?`).join(' AND ')}` : '';
+  return getPool().query(
+    `DELETE FROM \`${table}\`${clause} ORDER BY \`${orderBy}\` DESC LIMIT 1`,
+    cols.map(c => where[c])
+  );
+}
+
 // Retourne la dernière ligne d'une table (objet) ou undefined si la table est vide.
 // orderBy : colonne qui sert à définir « la dernière » (id auto-incrémenté ou date)
 // where   : filtre optionnel { colonne: valeur }, ex. { player_uuid: '...' }

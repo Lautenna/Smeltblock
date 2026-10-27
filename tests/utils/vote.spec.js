@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { jddVote, TEST_UUIDS, UUID_WARND } from '../data_test/vote.data.js';
-import { insertMany, deleteWhere, closeDb, selectLast } from '../helpers/db.js';
+import { insertMany, deleteWhere, closeDb, selectLast, deleteLast } from '../helpers/db.js';
 import { VotePage } from '../../pages/VotePage.js';
 import { Authentification } from '../../pages/components/Authentification.js'
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
@@ -11,6 +11,7 @@ let votePage;
 test.beforeAll(async () => {
     await deleteWhere('vote__vote', 'player_uuid', TEST_UUIDS);
     await deleteWhere('vote__milestone_claim', 'player_uuid', TEST_UUIDS);
+    await deleteWhere('vote__classement_hebdomadaire_recompense', 'player_uuid', TEST_UUIDS);
 
     await insertMany('vote__vote', jddVote())
 });
@@ -61,6 +62,8 @@ test('TC_VOTE_002_Blocage_vote_même_IP', async ({ page }) => {
         await expect(votePage.mesVotes.premierSite.getByText('Vote déjà fait avec cette ip ')).toBeVisible()
 
     })
+    await deleteLast('vote__vote');
+
 })
 
 
@@ -85,11 +88,11 @@ test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) 
 
         await page.reload()
 
-        await votePage.mesVotes.cliquerSurLeSite()
-        await expect(votePage.mesVotes.premierSite.getByText('Vote validé ?')).toBeVisible()
+        await votePage.mesVotes.cliquerSurLeSite(2)
+        await expect(votePage.mesVotes.secondSite.getByText('Vote validé ?')).toBeVisible()
 
-        await votePage.mesVotes.cliquerSurLeSite()
-        await expect(votePage.mesVotes.premierSite.getByText('Validé !')).toBeVisible()
+        await votePage.mesVotes.cliquerSurLeSite(2)
+        await expect(votePage.mesVotes.secondSite.getByText('Validé !')).toBeVisible()
 
         await votePage.recompensesDeVote.assertDebloque(1)
         await votePage.recompensesDeVote.assertDebloque(2)
@@ -103,21 +106,21 @@ test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) 
 
     })
 
+    await deleteLast('vote__vote');
+
 });
 
-test.fixme('TC_VOTE_004_Reception_des_récompenses_de_vote_top_vote', async ({ }) => {
-    await test.step('Étant donné un visiteur peut voir le top voteurs de cette semaine', async () => {
-        let testIds = ["classement-1", "classement-2", "classement-3", "classement-4", "classement-5"]
-        let pseudosAttendus = ["WarnD", "Cana_sucre", "Lautenna", "Yvanor", "LeSupaPoney"]
-        let votesAttendus = ["29", "16", "9", "3", "2"]
-
-        for (let i = 0; i < testIds.length; i++) {
-            expect(await votePage.topVoteurs.recupererInfoLigne(testIds[i])).toEqual({ pseudo: pseudosAttendus[i], nbVotes: votesAttendus[i] })
-        }
-    })
-
+test('TC_VOTE_004_Reception_des_récompenses_de_vote_top_vote', async ({ request }) => {
     await test.step('Étant donné un visiteur reçoit bien ces récompenses de top vote', async () => {
+        const response = await request.post('/vote/_e2e/weekly-rewards');
+        expect(response.status()).toBe(200);
+        const report = await response.json();
 
+        expect(report.commands[0].command).toEqual('playerpoints:p give WarnD 2000')
+        expect(report.commands[1].command).toEqual('playerpoints:p give Cana_sucre 1500')
+        expect(report.commands[2].command).toEqual('playerpoints:p give Lautenna 1250')
+        expect(report.commands[3].command).toEqual('playerpoints:p give Yvanor 1000')
+        expect(report.commands[4].command).toEqual('playerpoints:p give LeSupaPoney 750')
     })
 
 })
@@ -140,11 +143,11 @@ test.describe('Mes_votes', () => {
 
             await page.reload()
 
-            await votePage.mesVotes.cliquerSurLeSite()
-            await expect(votePage.mesVotes.premierSite.getByText('Vote validé ?')).toBeVisible()
+            await votePage.mesVotes.cliquerSurLeSite(3)
+            await expect(votePage.mesVotes.troisièmeSite.getByText('Vote validé ?')).toBeVisible()
 
-            await votePage.mesVotes.cliquerSurLeSite()
-            await expect(votePage.mesVotes.premierSite.getByText('Vote non trouvé')).toBeVisible()
+            await votePage.mesVotes.cliquerSurLeSite(3)
+            await expect(votePage.mesVotes.troisièmeSite.getByText('Vote non trouvé')).toBeVisible()
         })
     })
 
@@ -174,9 +177,13 @@ test.describe('Mes_votes', () => {
             await votePage.mesVotes.cliquerSurLeSite()
             await expect(votePage.mesVotes.premierSite.getByText('Vote validé ?')).toBeVisible()
 
-            await votePage.mesVotes.cliquerSurLeSite()
-            await expect(votePage.mesVotes.premierSite.getByText('Validé !')).toBeVisible()
-            await expect(page.locator('#infos')).toContainText('3 votes cette semaine !');
+            try {
+                await votePage.mesVotes.cliquerSurLeSite()
+                await expect(votePage.mesVotes.premierSite.getByText('Validé !')).toBeVisible()
+                await expect(page.locator('#infos')).toContainText('3 votes cette semaine !');
+            } finally {
+                await deleteLast('vote__vote');
+            }
         })
 
     })
