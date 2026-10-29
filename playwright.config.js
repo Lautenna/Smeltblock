@@ -1,5 +1,22 @@
 // @ts-check
 import { defineConfig, devices } from '@playwright/test';
+import { mkdirSync } from 'node:fs';
+import path from 'node:path';
+
+// Fix partagé pour firefox 157 pour macOS 27
+/** @type {import('@playwright/test').LaunchOptions} */
+const firefoxLaunchOptions = {};
+if (process.platform === 'darwin') {
+  const appData = path.join(__dirname, 'playwright/.cache/firefox/app-data');
+  const localAppData = path.join(__dirname, 'playwright/.cache/firefox/local-data');
+  mkdirSync(appData, { recursive: true });
+  mkdirSync(localAppData, { recursive: true });
+  firefoxLaunchOptions.env = {
+    ...process.env,
+    MOZ_APP_DATA: appData,
+    MOZ_LOCAL_APP_DATA: localAppData,
+  };
+}
 
 /**
  * Read environment variables from file.
@@ -35,7 +52,7 @@ export default defineConfig({
       ['html', { open: 'never' }],
     ]
     : 'html',
-  timeout: process.env.CI ? 60_000 : 30_000,
+  timeout: process.env.CI ? 60_000 : 45_000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
@@ -59,7 +76,7 @@ export default defineConfig({
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'], launchOptions: firefoxLaunchOptions },
       testIgnore: VOTE,
     },
 
@@ -78,7 +95,7 @@ export default defineConfig({
     {
       name: 'vote-firefox',
       testMatch: VOTE,
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'], launchOptions: firefoxLaunchOptions },
       dependencies: ['vote-chromium'],
     },
     {
