@@ -19,7 +19,7 @@ test('TC_CONN_002_un_id_inconnu_refuse_la_connexion', async ({ page }) => {
         await page.goto('/vote');
         await (new CookiesPopup(page)).refuserCookies()
         await authentification.connexionInvalide()
-        await expect(page.getByRole('alert')).toContainText("Ce joueur n'existe pas.");
+        await expect(page.getByRole('alert')).toContainText("Ce joueur n'existe pas.", { timeout: 10_000 });
 
     })
 });

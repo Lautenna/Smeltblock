@@ -1,22 +1,27 @@
 import { test, expect } from '@playwright/test';
 import { jddVote, TEST_UUIDS, UUID_WARND } from '../data_test/vote.data.js';
-import { insertMany, deleteWhere, closeDb, selectLast, deleteLast } from '../helpers/db.js';
+import { insertMany, deleteWhere, closeDb, selectLast, query } from '../helpers/db.js';
 import { VotePage } from '../../pages/VotePage.js';
 import { Authentification } from '../../pages/components/Authentification.js'
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
 
 let votePage;
+let dernierIdAvantTest = null
 
 
-test.beforeAll(async () => {
+test.beforeEach(async ({ page }) => {
+    dernierIdAvantTest = null
+    // Chaque scénario repart du même état, même après un vote ou une assertion en échec.
     await deleteWhere('vote__vote', 'player_uuid', TEST_UUIDS);
     await deleteWhere('vote__milestone_claim', 'player_uuid', TEST_UUIDS);
     await deleteWhere('vote__classement_hebdomadaire_recompense', 'player_uuid', TEST_UUIDS);
 
     await insertMany('vote__vote', jddVote())
-});
-
-test.beforeEach(async ({ page }) => {
+    const [borne] = await query(
+        'SELECT COALESCE(MAX(id), 0) AS id FROM vote__vote WHERE player_uuid IN (?)',
+        [TEST_UUIDS]
+    )
+    dernierIdAvantTest = borne.id
     await page.goto('/vote');
     votePage = new VotePage(page);
     await (new CookiesPopup(page)).refuserCookies()
@@ -24,13 +29,13 @@ test.beforeEach(async ({ page }) => {
 
 test('TC_VOTE_001_Voir_top_vote', async ({ }) => {
     await test.step('Étant donné un visiteur peut voir le top voteurs de cette semaine', async () => {
-        const testIds = ["classement-1", "classement-2", "classement-3", "classement-4", "classement-5"]
-        const pseudosAttendus = ["WarnD", "Cana_sucre", "Lautenna", "Yvanor", "LeSupaPoney"]
-        const votesAttendus = ["29", "16", "9", "3", "2"]
-
-        for (let i = 0; i < testIds.length; i++) {
-            expect(await votePage.topVoteurs.recupererInfoLigne(testIds[i])).toEqual({ pseudo: pseudosAttendus[i], nbVotes: votesAttendus[i] })
-        }
+        await votePage.topVoteurs.verifierClassement([
+            { pseudo: 'WarnD', nbVotes: '29' },
+            { pseudo: 'Cana_sucre', nbVotes: '16' },
+            { pseudo: 'Lautenna', nbVotes: '9' },
+            { pseudo: 'Yvanor', nbVotes: '3' },
+            { pseudo: 'LeSupaPoney', nbVotes: '2' },
+        ])
     })
 });
 
@@ -40,29 +45,30 @@ test('TC_VOTE_002_Blocage_vote_même_IP', async ({ page }) => {
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await authentification.connexionValideLautenna()
         await expect(page.locator('#infos')).toContainText('Lautenna');
+        await votePage.mesVotes.attendreFinChargement()
     })
     await test.step('Étant donné un visiteur vote avec une IP', async () => {
         const response = await votePage.mesVotes.simulerSession('confirmed')
         expect(response.ok()).toBeTruthy()
 
-        await page.reload()
-
-        await votePage.mesVotes.cliquerSurLeSite()
+        await votePage.mesVotes.ouvrirSite()
         await expect(votePage.mesVotes.premierSite.getByText('Vote validé ?')).toBeVisible()
 
-        await votePage.mesVotes.cliquerSurLeSite()
+        await votePage.mesVotes.verifierVote()
         await expect(votePage.mesVotes.premierSite.getByText('Validé !')).toBeVisible()
         await expect(page.locator('#infos')).toContainText('10 votes cette semaine !');
     })
 
     await test.step('Étant donné un autre visiteur vote avec une IP qui a déja voté', async () => {
         await authentification.deconnexion()
+        await expect(authentification.boutonConnexion).toBeVisible()
+        await votePage.mesVotes.attendreFinChargement()
         await authentification.connexionValideYvanor()
         await expect(page.locator('#infos')).toContainText('Yvanor');
+        await votePage.mesVotes.attendreFinChargement()
         await expect(votePage.mesVotes.premierSite.getByText('Vote déjà fait avec cette ip ')).toBeVisible()
 
     })
-    await deleteLast('vote__vote');
 
 })
 
@@ -74,6 +80,7 @@ test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) 
         await votePage.recompensesDeVote.assertVerrouille(2)
         await authentification.connexionValideWarnd()
         await expect(page.locator('#infos')).toContainText('WarnD');
+        await votePage.mesVotes.attendreFinChargement()
     })
 
     await test.step("Étant donné un visiteur peut voir qu'il a un palier de bon, et proche d'un autre", async () => {
@@ -86,12 +93,10 @@ test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) 
         const response = await votePage.mesVotes.simulerSession('confirmed')
         expect(response.ok()).toBeTruthy()
 
-        await page.reload()
-
-        await votePage.mesVotes.cliquerSurLeSite(2)
+        await votePage.mesVotes.ouvrirSite(2)
         await expect(votePage.mesVotes.secondSite.getByText('Vote validé ?')).toBeVisible()
 
-        await votePage.mesVotes.cliquerSurLeSite(2)
+        await votePage.mesVotes.verifierVote(2)
         await expect(votePage.mesVotes.secondSite.getByText('Validé !')).toBeVisible()
 
         await votePage.recompensesDeVote.assertDebloque(1)
@@ -100,13 +105,12 @@ test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) 
     })
 
     await test.step('Étant donné un visiteur reçoit bien ces récompenses de vote', async () => {
-        const dernierPalierDeVote = await selectLast('vote__milestone_claim')
+        const dernierPalierDeVote = await selectLast('vote__milestone_claim', 'id', { player_uuid: UUID_WARND })
         await expect(dernierPalierDeVote.player_uuid).toEqual(UUID_WARND)
         await expect(dernierPalierDeVote.threshold_value).toEqual(30)
 
     })
 
-    await deleteLast('vote__vote');
 
 });
 
@@ -132,6 +136,7 @@ test.describe('Mes_votes', () => {
         await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
             await authentification.connexionValideLesupaponey()
             await expect(page.locator('#infos')).toContainText('Lesupaponey');
+            await votePage.mesVotes.attendreFinChargement()
         })
     })
 
@@ -141,12 +146,10 @@ test.describe('Mes_votes', () => {
             const response = await votePage.mesVotes.simulerSession('not_found')
             expect(response.ok()).toBeTruthy()
 
-            await page.reload()
-
-            await votePage.mesVotes.cliquerSurLeSite(3)
+            await votePage.mesVotes.ouvrirSite(3)
             await expect(votePage.mesVotes.troisièmeSite.getByText('Vote validé ?')).toBeVisible()
 
-            await votePage.mesVotes.cliquerSurLeSite(3)
+            await votePage.mesVotes.verifierVote(3)
             await expect(votePage.mesVotes.troisièmeSite.getByText('Vote non trouvé')).toBeVisible()
         })
     })
@@ -157,12 +160,10 @@ test.describe('Mes_votes', () => {
             const response = await votePage.mesVotes.simulerSession('unavailable')
             expect(response.ok()).toBeTruthy()
 
-            await page.reload()
-
-            await votePage.mesVotes.cliquerSurLeSite()
+            await votePage.mesVotes.ouvrirSite()
             await expect(votePage.mesVotes.premierSite.getByText('Vote validé ?')).toBeVisible()
 
-            await votePage.mesVotes.cliquerSurLeSite()
+            await votePage.mesVotes.verifierVote()
             await expect(votePage.mesVotes.premierSite.getByText('Problème de vérification')).toBeVisible()
         })
 
@@ -172,22 +173,28 @@ test.describe('Mes_votes', () => {
             const response = await votePage.mesVotes.simulerSession('confirmed')
             expect(response.ok()).toBeTruthy()
 
-            await page.reload()
-
-            await votePage.mesVotes.cliquerSurLeSite()
+            await votePage.mesVotes.ouvrirSite()
             await expect(votePage.mesVotes.premierSite.getByText('Vote validé ?')).toBeVisible()
 
-            try {
-                await votePage.mesVotes.cliquerSurLeSite()
-                await expect(votePage.mesVotes.premierSite.getByText('Validé !')).toBeVisible()
-                await expect(page.locator('#infos')).toContainText('3 votes cette semaine !');
-            } finally {
-                await deleteLast('vote__vote');
-            }
+            await votePage.mesVotes.verifierVote()
+            await expect(votePage.mesVotes.premierSite.getByText('Validé !')).toBeVisible()
+            await expect(page.locator('#infos')).toContainText('3 votes cette semaine !');
         })
 
     })
 
+})
+
+test.afterEach(async () => {
+    if (dernierIdAvantTest === null) return
+    // Ne supprimer que les nouvelles lignes des joueurs de test, jamais la dernière ligne globale.
+    const votesCrees = await query(
+        'SELECT id FROM vote__vote WHERE player_uuid IN (?) AND id > ?',
+        [TEST_UUIDS, dernierIdAvantTest]
+    )
+    if (votesCrees.length) {
+        await deleteWhere('vote__vote', 'id', votesCrees.map(vote => vote.id))
+    }
 })
 
 test.afterAll(async () => {
