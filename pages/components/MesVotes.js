@@ -1,17 +1,15 @@
-import { expect } from '@playwright/test';
 
-// États du composant Vote:GatewaySite (data-vote--gateway-site-current-state-value)
-const ETAT = 'data-vote--gateway-site-current-state-value'
-const STATE_AVAILABLE = '1'
-const STATE_TOO_SOON = '5'
+import { expect } from '@playwright/test'
 
 export class MesVotes {
     /** @param {import("@playwright/test").Page} page */
     constructor(page) {
         this.page = page;
-        this.premierSite = page.locator('[data-controller~="vote--gateway-site"]').first()
-        this.secondSite = page.locator('[data-controller~="vote--gateway-site"]').nth(1)
-        this.troisièmeSite = page.locator('[data-controller~="vote--gateway-site"]').nth(2)
+        // Inclure les sites indisponibles pour conserver leur position dans la liste.
+        this.sites = page.locator('.item-vote, .item-vote-neutral')
+        this.premierSite = this.sites.first()
+        this.secondSite = this.sites.nth(1)
+        this.troisièmeSite = this.sites.nth(2)
     }
 
     async simulerSession(scenario) {
@@ -20,36 +18,32 @@ export class MesVotes {
         })
     }
 
-    // Clique sur un site et attend que le serveur ait répondu (l'état du composant change).
-    // - Après un reload, les composants Live re-postent resetForSessionChange : un clic pendant ces requêtes
-    //   est écrasé (surtout sous WebKit), on attend donc que le réseau se calme.
-    // - Le serveur limite la cadence et répond parfois « Pas encore disponible » (état 5, effacé ~2 s plus tard
-    //   par resetFeedback) à l'ouverture comme à la vérification. On rejoue alors le parcours depuis le début
-    //   jusqu'à l'étape voulue.
-    async cliquerSurLeSite(numeroSite = 1) {
-        const site = this.page.locator('[data-controller~="vote--gateway-site"]').nth(numeroSite - 1)
+    async attendreFinChargement() {
+        await expect(this.premierSite).toBeVisible()
+        await expect(this.page.locator(
+            '#voteGateway[busy], .item-vote[busy], .item-vote-neutral[busy]'
+        )).toHaveCount(0)
+    }
 
-        await this.page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => { })
-        const etapeVisee = await site.getAttribute(ETAT)
+    async ouvrirSite(numeroSite = 1) {
+        const site = this.sites.nth(numeroSite - 1)
+        await this.attendreFinChargement()
+        // Le bouton ne reçoit pas les clics : son bloc HTML est la zone cliquable.
+        await site.filter({
+            has: this.page.getByRole('button', { name: 'VOTER', exact: true }),
+        }).click()
+        await expect(site.getByRole('button', { name: 'VÉRIFIER', exact: true })).toBeVisible()
+    }
 
-        for (let tentative = 0; tentative < 5; tentative++) {
-            if (etapeVisee !== STATE_AVAILABLE && await site.getAttribute(ETAT) === STATE_AVAILABLE) {
-                // le site est revenu à « VOTER » après un refus : on refait l'ouverture
-                await site.click()
-                await expect(site).not.toHaveAttribute(ETAT, STATE_AVAILABLE)
-                if (await site.getAttribute(ETAT) === STATE_TOO_SOON) {
-                    await expect(site).toHaveAttribute(ETAT, STATE_AVAILABLE, { timeout: 10_000 })
-                    continue
-                }
-            }
-
-            const avant = await site.getAttribute(ETAT)
-            await site.click()
-            await expect(site).not.toHaveAttribute(ETAT, avant)
-            if (await site.getAttribute(ETAT) !== STATE_TOO_SOON) return
-
-            await expect(site).toHaveAttribute(ETAT, STATE_AVAILABLE, { timeout: 10_000 })
-        }
+    async verifierVote(numeroSite = 1) {
+        const site = this.sites.nth(numeroSite - 1)
+        await this.attendreFinChargement()
+        await site.filter({
+            has: this.page.getByRole('button', { name: 'VÉRIFIER', exact: true }),
+        }).click()
+        await this.attendreFinChargement()
+        await expect(site.getByRole('button', { name: 'VÉRIFIER', exact: true })).toBeHidden()
     }
 
 }
+

@@ -6,13 +6,10 @@ export const UUID_LESUPAPONEY = '986db577680b402bb55f50471c050fb2';
 export const UUID_CANASUCRE = 'f8cbe114476c43ad90af1a64986200dc';
 
 // Une seconde d'écart entre chaque vote : la contrainte uniq_vote_dedup refuse deux votes du même joueur à la même seconde
-let decalage = 0;
-function randomRegisteredAt() {
-    const now = (new Date()).getTime()
-    return new Date(now - (decalage++) * 1000)
-}
-
 export function jddVote() {
+    let decalage = 0
+    const maintenant = Date.now()
+    const randomRegisteredAt = () => new Date(maintenant - (decalage++) * 1000)
     let votes = []
     for (let v = 0; v <= 2; v++) {
         votes.push({ player_uuid: UUID_YVANOR, ip: '10.0.0.1', website_id: 4, reward_given: 1, registered_at: randomRegisteredAt() },
