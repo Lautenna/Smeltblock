@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { jddVote, TEST_UUIDS, UUID_WARND } from '../data_test/vote.data.js';
 import { insertMany, deleteWhere, closeDb, selectLast, deleteLast } from '../helpers/db.js';
 import { VotePage } from '../../pages/VotePage.js';
-import { Authentification } from '../../pages/components/Authentification.js'
+import { AuthentificationVote } from '../../pages/components/AuthentificationVote.js'
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
 
 let votePage;
@@ -36,7 +36,7 @@ test('TC_VOTE_001_Voir_top_vote', async ({ }) => {
 
 
 test('TC_VOTE_002_Blocage_vote_même_IP', async ({ page }) => {
-    let authentification = new Authentification(page);
+    let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await authentification.connexionValideLautenna()
         await expect(page.locator('#infos')).toContainText('Lautenna');
@@ -69,7 +69,7 @@ test('TC_VOTE_002_Blocage_vote_même_IP', async ({ page }) => {
 
 test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) => {
 
-    let authentification = new Authentification(page);
+    let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await votePage.recompensesDeVote.assertVerrouille(2)
         await authentification.connexionValideWarnd()
@@ -128,7 +128,7 @@ test('TC_VOTE_004_Reception_des_récompenses_de_vote_top_vote', async ({ request
 test.describe('Mes_votes', () => {
 
     test.beforeEach(async ({ page }) => {
-        const authentification = new Authentification(page);
+        const authentification = new AuthentificationVote(page);
         await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
             await authentification.connexionValideLesupaponey()
             await expect(page.locator('#infos')).toContainText('Lesupaponey');

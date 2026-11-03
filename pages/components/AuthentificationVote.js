@@ -1,4 +1,4 @@
-export class Authentification {
+export class AuthentificationVote {
     /** @param {import("@playwright/test").Page} page */
     constructor(page) {
         this.page = page;
@@ -19,8 +19,8 @@ export class Authentification {
         await this.boutonConnexion.click()
 
     }
-    
-     async connexionValideLautenna() {
+
+    async connexionValideLautenna() {
         await this.champPseudo.fill("Lautenna")
         await this.boutonConnexion.click()
 
@@ -43,8 +43,8 @@ export class Authentification {
 
     }
 
-    async deconnexion(){
-          await this.boutonDeconnexion.click();
+    async deconnexion() {
+        await this.boutonDeconnexion.click();
 
     }
 
