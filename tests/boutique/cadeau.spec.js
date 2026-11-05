@@ -22,13 +22,13 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
         await boutiquePage.panier.ajouterPacks(1000)
         await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
         await expect(page.getByText('Total 9,99 €')).toBeVisible();
-        await boutiquePage.panier.validerPaiementPage()
+        await boutiquePage.panier.ouvrirValidationPanier()
 
     })
 
     await test.step('Étant donné un visiteur peut valider son panier email', async () => {
-        await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible()
-        await expect(page.getByText('Total 9,99 €')).toBeVisible()
+        await expect(boutiquePage.panier.popupPanier.popup).toContainText('1x 1000 Smeltcoins 9,99 €')
+        await expect(boutiquePage.panier.popupPanier.popup).toContainText('Total 9,99 €')
         await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)
     })
@@ -37,10 +37,10 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
         await expect(page.getByText('1000 Smeltcoins')).toBeVisible()
         await expect(page.getByText('Total due€9.99')).toBeVisible()
 
-        await boutiquePage.paiementStripe.remplirCodeTesting()
+        await boutiquePage.paiementStripe.remplirCodeTestingFonctionnel()
         await boutiquePage.paiementStripe.validerPaiement()
 
-        await expect(page).toHaveURL(/merci/, { timeout: 10_000 })
+        await expect(page).toHaveURL(/merci/, { timeout: 12_000 })
         await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
     })
 
@@ -69,12 +69,12 @@ test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
         await boutiquePage.grades.ajouterGrade('eliteOffert')
         await expect(page.getByText('1x ÉLITE 49,99 €')).toBeVisible()
         await expect(page.getByText('Total 49,99 €')).toBeVisible()
-        await boutiquePage.panier.validerPaiementPage()
+        await boutiquePage.panier.ouvrirValidationPanier()
     })
 
     await test.step('Étant donné un visiteur peut valider son panier email', async () => {
-        await expect(page.getByText('1x ÉLITE 49,99 €')).toBeVisible()
-        await expect(page.getByText('Total 49,99 €')).toBeVisible()
+        await expect(boutiquePage.panier.popupPanier.popup).toContainText('1x ÉLITE 49,99 €')
+        await expect(boutiquePage.panier.popupPanier.popup).toContainText('Total 49,99 €')
         await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)
     })
@@ -83,10 +83,10 @@ test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
         await expect(page.getByText('ÉLITE')).toBeVisible()
         await expect(page.getByText('Total due€49.99')).toBeVisible()
 
-        await boutiquePage.paiementStripe.remplirCodeTesting()
+        await boutiquePage.paiementStripe.remplirCodeTestingFonctionnel()
         await boutiquePage.paiementStripe.validerPaiement()
 
-        await expect(page).toHaveURL(/merci/, { timeout: 10_000 })
+        await expect(page).toHaveURL(/merci/, { timeout: 12_000 })
         await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
     })
 

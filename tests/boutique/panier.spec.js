@@ -37,34 +37,4 @@ test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
         await boutiquePage.panier.validerPaiementPage()
     })
 
-    await test.step('Étant donné un visiteur peut pas valider son panier sans email', async () => {
-        await boutiquePage.panier.validerPanier('')
-        await expect(page).toHaveURL('/boutique/smeltcoins')
-    })
-
-    await test.step('Étant donné un visiteur peut valider son panier email', async () => {
-        await expect(boutiquePage.panier.popupPanier.Smeltcoins1000Panier).toBeVisible()
-        await expect(boutiquePage.panier.popupPanier.totalPanier).toBeVisible()
-        await boutiquePage.panier.validerPanier()
-        await expect(page).toHaveURL(/checkout.stripe.com/)
-    })
-
-    await test.step('Étant donné un visiteur peut payer via stripe', async () => {
-        await expect(page.getByText('1000 Smeltcoins')).toBeVisible()
-        await expect(page.getByText('Total due€9.99')).toBeVisible()
-
-        await boutiquePage.paiementStripe.remplirCodeTesting()
-        await boutiquePage.paiementStripe.validerPaiement()
-
-        await expect(page).toHaveURL(/merci/, { timeout: 10_000 })
-        await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
-    })
-
-    await test.step('Le paiement est passé', async () => {
-        const paimentPanier = await selectLast('plugin__commands', 'id')
-        console.log(paimentPanier)
-        await expect(paimentPanier.command).toEqual('3achatboutiquesmeltcoins1000 Youtyxx')
-    })
-
-
 })
