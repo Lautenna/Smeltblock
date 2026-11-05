@@ -2,6 +2,7 @@ import { AuthentificationBoutique } from "./components/boutique/Authentification
 import { PanierSmeltcoins } from "./components/boutique/PanierSmeltcoins";
 import { PaiementStripe } from "./components/boutique/PaiementStripe";
 import { Grades } from "./components/boutique/Grades";
+import { NavigationOngletBoutique } from "./components/boutique/NavigationOngletBoutique";
 
 
 export class BoutiquePage {
@@ -12,6 +13,7 @@ export class BoutiquePage {
         this.panier = new PanierSmeltcoins(page)
         this.paiementStripe = new PaiementStripe(page)
         this.grades = new Grades(page)
+        this.ongletBoutique = new NavigationOngletBoutique(page)
 
     }
 }

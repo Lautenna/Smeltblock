@@ -8,16 +8,13 @@ test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
     await page.goto('/boutique');
     await (new CookiesPopup(page)).refuserCookies()
-    await boutiquePage.authentification.seConnecterBoutique('Youtyxx', 'Yvanor')
+
 })
 
 test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
-    await test.step("Navigation sur l'onglet Smelcoins de la boutique", async () => {
-        await page.getByRole('tab', { name: 'Smeltcoins Monnaie du serveur' }).click();
-        await expect(page).toHaveURL('/boutique/smeltcoins')
-    })
-
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide sur la page boutique et ajouter un ami', async () => {
+        await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
+        await boutiquePage.authentification.seConnecterBoutique('Youtyxx', 'Yvanor')
         await expect(page.getByText('Yvanor')).toBeVisible();
     })
 
@@ -56,12 +53,9 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
 })
 
 test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
-    await test.step("Navigation sur l'onglet grades de la boutique", async () => {
-        await page.getByRole('tab', { name: 'Grades Avantages à vie' }).click()
-        await expect(page).toHaveURL('/boutique/grades')
-    })
-
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide sur la page boutique et ajouter un ami', async () => {
+        await boutiquePage.ongletBoutique.allerSurOnglet('grades')
+        await boutiquePage.authentification.seConnecterBoutique('Youtyxx', 'Yvanor')
         await expect(page.getByText('Yvanor')).toBeVisible();
     })
 

@@ -7,17 +7,12 @@ let boutiquePage;
 
 test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
-    await page.goto('/boutique');
+    await boutiquePage.ongletBoutique.allerSurOnglet('grades')
     await (new CookiesPopup(page)).refuserCookies()
     await boutiquePage.authentification.seConnecterBoutique()
 })
 
 test('TC_GRAD_002 Prix dégressif si le joueur possède déjà un grade', async ({ page }) => {
-    await test.step("Navigation sur l'onglet grade de la boutique", async () => {
-        await page.getByRole('tab', { name: 'Grades Avantages à vie' }).click()
-        await expect(page).toHaveURL('/boutique/grades')
-    })
-
     await test.step('Étant donné un visiteur peut voir son grade déja possédé', async () => {
         await expect(page.getByText('⌞MVP⌝')).toBeVisible()
         await expect(page.getByRole('tabpanel', { name: 'Grades Avantages à vie' })).toContainText('DÉJÀ MVP')

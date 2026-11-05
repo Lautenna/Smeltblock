@@ -8,18 +8,12 @@ let boutiquePage;
 test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
     await deleteLast('plugin__commands');
-    await page.goto('/boutique');
+    await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
     await (new CookiesPopup(page)).refuserCookies()
     await boutiquePage.authentification.seConnecterBoutique()
 })
 
 test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
-
-    await test.step("Navigation sur l'onglet Smelcoins de la boutique", async () => {
-        await page.getByRole('tab', { name: 'Smeltcoins Monnaie du serveur' }).click();
-        await expect(page).toHaveURL('/boutique/smeltcoins')
-    })
-
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
         await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
