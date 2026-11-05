@@ -1,13 +1,12 @@
 import { test, expect } from '@playwright/test';
-import { jddVote, TEST_UUIDS, UUID_WARND } from '../data_test/vote.data.js';
-import { insertMany, deleteWhere, closeDb, selectLast, query } from '../helpers/db.js';
-import { VotePage } from '../../pages/VotePage.js';
-import { AuthentificationVote } from '../../pages/components/AuthentificationVote.js'
-import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
+import { jddVote, TEST_UUIDS, UUID_WARND } from './data_test/vote.data.js';
+import { insertMany, deleteWhere, closeDb, selectLast, query } from './helpers/db.js';
+import { VotePage } from '../pages/VotePage.js';
+import { AuthentificationVote } from '../pages/components/AuthentificationVote.js'
+import { CookiesPopup } from '../pages/components/CookiesPopup.js';
 
 let votePage;
 let dernierIdAvantTest = null
-
 
 test.beforeEach(async ({ page }) => {
     dernierIdAvantTest = null
@@ -27,7 +26,7 @@ test.beforeEach(async ({ page }) => {
     await (new CookiesPopup(page)).refuserCookies()
 })
 
-test('TC_VOTE_001_Voir_top_vote', async ({ }) => {
+test('TC_VOTE_001 Voir le top des voteurs de la semaine', async ({ }) => {
     await test.step('Étant donné un visiteur peut voir le top voteurs de cette semaine', async () => {
         await votePage.topVoteurs.verifierClassement([
             { pseudo: 'WarnD', nbVotes: '29' },
@@ -40,7 +39,7 @@ test('TC_VOTE_001_Voir_top_vote', async ({ }) => {
 });
 
 
-test('TC_VOTE_002_Blocage_vote_même_IP', async ({ page }) => {
+test('TC_VOTE_002 Blocage du vote depuis une même IP', async ({ page }) => {
     let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await authentification.connexionValideLautenna()
@@ -73,7 +72,7 @@ test('TC_VOTE_002_Blocage_vote_même_IP', async ({ page }) => {
 })
 
 
-test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) => {
+test('TC_VOTE_003 Avancement et réception des récompenses de vote', async ({ page }) => {
 
     let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
@@ -114,7 +113,7 @@ test('TC_VOTE_003_Avancé_et_réception_récompenses_de_vote', async ({ page }) 
 
 });
 
-test('TC_VOTE_004_Reception_des_récompenses_de_vote_top_vote', async ({ request }) => {
+test('TC_VOTE_004 Réception des récompenses du top vote', async ({ request }) => {
     await test.step('Étant donné un visiteur reçoit bien ces récompenses de top vote', async () => {
         const response = await request.post('/vote/_e2e/weekly-rewards');
         expect(response.status()).toBe(200);
@@ -140,7 +139,7 @@ test.describe('Mes_votes', () => {
         })
     })
 
-    test('TC_VOTE_005_Mes_votes_not_found', async ({ page }) => {
+    test('TC_VOTE_005 Mes votes - pseudo introuvable (not_found)', async ({ page }) => {
 
         await test.step('Étant donné un visiteur a voté, mais pas encore validé ou trouvé', async () => {
             const response = await votePage.mesVotes.simulerSession('not_found')
@@ -154,7 +153,7 @@ test.describe('Mes_votes', () => {
         })
     })
 
-    test('TC_VOTE_006_Mes_votes_unavailable', async ({ page }) => {
+    test('TC_VOTE_006 Mes votes - service indisponible (unavailable)', async ({ page }) => {
 
         await test.step('Étant donné un visiteur a voté, mais une erreur est survenue', async () => {
             const response = await votePage.mesVotes.simulerSession('unavailable')
@@ -168,7 +167,7 @@ test.describe('Mes_votes', () => {
         })
 
     })
-    test('TC_VOTE_007_Mes_votes_confirmed', async ({ page }) => {
+    test('TC_VOTE_007 Mes votes - vote confirmé (confirmed)', async ({ page }) => {
         await test.step('Étant donné un visiteur a son vote validé', async () => {
             const response = await votePage.mesVotes.simulerSession('confirmed')
             expect(response.ok()).toBeTruthy()

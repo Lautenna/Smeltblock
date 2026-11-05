@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
-import { NavigationViaLaBarre } from '../data_test/navigation.data';
-import { Ip } from '../../pages/components/Ip';
-import { RedirectionPage } from "../../pages/RedirectionPage";
-import { WikiPage } from '../../pages/WikiPage';
-import { ActusPage } from '../../pages/ActusPage.js';
-import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
-import { BarreNavigation } from '../../pages/components/BarreNavigation.js';
+import { NavigationViaLaBarre } from './data_test/navigation.data.js';
+import { Ip } from '../pages/components/Ip.js';
+import { RedirectionPage } from "../pages/RedirectionPage.js";
+import { WikiPage } from '../pages/WikiPage.js';
+import { ActusPage } from '../pages/ActusPage.js';
+import { CookiesPopup } from '../pages/components/CookiesPopup.js';
+import { BarreNavigation } from '../pages/components/BarreNavigation.js';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('');
@@ -15,7 +15,7 @@ test.beforeEach(async ({ page }) => {
 
 
 for (const { cas, libelleLien, url, titre, } of NavigationViaLaBarre) {
-    test(`TC_NAVI_001_Toutes_les_pages_du_site_fonctionnent ${cas}`, async ({ page }) => {
+    test(`TC_NAVI_001 Toutes les pages du site sont accessibles - ${cas}`, async ({ page }) => {
         const barreNavigation = new BarreNavigation(page)
         await test.step(`Étant donné un visiteur peut aller sur la page ${cas} via la barre de navigation`, async () => {
             await barreNavigation.ouvrirLien(libelleLien)
@@ -26,7 +26,7 @@ for (const { cas, libelleLien, url, titre, } of NavigationViaLaBarre) {
     })
 }
 
-test('TC_NAVI_002_Navigation_sur_la_page_wiki', async ({ page }) => {
+test('TC_NAVI_002 Navigation sur la page Wiki', async ({ page }) => {
     await page.goto('/wiki');
     const wikiPage = new WikiPage(page)
 
@@ -49,7 +49,7 @@ test('TC_NAVI_002_Navigation_sur_la_page_wiki', async ({ page }) => {
 
 
 
-test('TC_NAVI_003_Navigation_sur_la_page_actus', async ({ page }) => {
+test('TC_NAVI_003 Navigation sur la page Actus', async ({ page }) => {
     await page.goto('/actus');
     const actusPage = new ActusPage(page);
 
@@ -80,7 +80,7 @@ test('TC_NAVI_003_Navigation_sur_la_page_actus', async ({ page }) => {
 
 
 
-test('TC_NAVI_004_IP_page_accueil', async ({ page }) => {
+test("TC_NAVI_004 Copie de l'IP du serveur depuis la page d'accueil", async ({ page }) => {
 
     await test.step("Étant donné un visiteur peut copier l'IP", async () => {
         const ip = new Ip(page)
@@ -98,7 +98,7 @@ test('TC_NAVI_004_IP_page_accueil', async ({ page }) => {
 
 })
 
-test('TC_NAVI_005_Redirection_wiki_et_Discord', async ({ page }) => {
+test('TC_NAVI_005 Redirection vers le Wiki et le Discord', async ({ page }) => {
     const redirectionPage = new RedirectionPage(page);
 
     await test.step("Étant donné un visiteur accéder au wiki, via le bouton visible dans la page d'accueil", async () => {

@@ -1,35 +1,36 @@
+
 import { test, expect } from '@playwright/test';
 import { BoutiquePage } from '../../pages/BoutiquePage.js';
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
+import { selectLast, deleteLast } from '../helpers/db.js';
 
-
-
-test('TC_PAIE_006_Mise_à_jour_du_panier et paiement', async ({ page }) => {
-    let boutiquePage = new BoutiquePage(page);
+let boutiquePage;
+test.beforeEach(async ({ page }) => {
+    boutiquePage = new BoutiquePage(page);
+    await deleteLast('plugin__commands');
     await page.goto('/boutique');
     await (new CookiesPopup(page)).refuserCookies()
+    await boutiquePage.authentification.seConnecterBoutique()
+})
+
+test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
 
     await test.step("Navigation sur l'onglet Smelcoins de la boutique", async () => {
         await page.getByRole('tab', { name: 'Smeltcoins Monnaie du serveur' }).click();
         await expect(page).toHaveURL('/boutique/smeltcoins')
     })
 
-    await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide sur la page boutique', async () => {
-        await boutiquePage.authentification.connexionValideYoutyxx()
-        await expect(page.getByText('Youtyxx')).toBeVisible();
-    })
-
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
-        await boutiquePage.panier.ajout1000Smeltcoins()
+        await boutiquePage.panier.ajouterPacks(1000)
         await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
-        await boutiquePage.panier.ajout3500Smeltcoins()
+        await boutiquePage.panier.ajouterPacks(3500)
         await expect(page.getByText('1x 3500 Smeltcoins 29,99 €')).toBeVisible();
         await expect(page.getByText('Total 39,98 €')).toBeVisible();
 
     })
 
     await test.step('Étant donné un visiteur peut ajouter le même article à son panier', async () => {
-        await boutiquePage.panier.ajout3500Smeltcoins()
+        await boutiquePage.panier.ajouterPacks(3500)
         await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
         await expect(page.getByText('2x 3500 Smeltcoins 59,98 €')).toBeVisible();
         await expect(page.getByText('Total 69,97 €')).toBeVisible();
@@ -37,21 +38,20 @@ test('TC_PAIE_006_Mise_à_jour_du_panier et paiement', async ({ page }) => {
     })
 
     await test.step('Étant donné un visiteur peut supprimer des Smeltcoins à son panier', async () => {
-        await boutiquePage.panier.retrait3500Smeltcoins()
+        await boutiquePage.panier.retraitPanier(2)
         await expect(page.getByText('1x 3500 Smeltcoins 29,99 €')).toBeHidden()
+        await boutiquePage.panier.validerPaiementPage()
     })
 
     await test.step('Étant donné un visiteur peut pas valider son panier sans email', async () => {
-        await boutiquePage.panier.validerPaiementPage()
+        await boutiquePage.panier.validerPanier('')
         await expect(page).toHaveURL('/boutique/smeltcoins')
     })
 
     await test.step('Étant donné un visiteur peut valider son panier email', async () => {
         await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible()
         await expect(page.getByText('Total 9,99 €')).toBeVisible()
-        await boutiquePage.panier.remplirEmailFacturation()
-        await boutiquePage.panier.validerCheckbox()
-        await boutiquePage.panier.validerPaiementPopup()
+        await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)
     })
 
@@ -66,7 +66,11 @@ test('TC_PAIE_006_Mise_à_jour_du_panier et paiement', async ({ page }) => {
         await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
     })
 
+    await test.step('Le paiement est passé', async () => {
+        const paimentPanier = await selectLast('plugin__commands', 'id')
+        console.log(paimentPanier)
+        await expect(paimentPanier.command).toEqual('3achatboutiquevip Youtyxx')
+    })
+
+
 })
-
-
-

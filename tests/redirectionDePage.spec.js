@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { RedirectionPage } from "../../pages/RedirectionPage";
+import { RedirectionPage } from "../pages/RedirectionPage";
 
-test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', async ({ page }) => {
+test('TC_REDI_001 Redirection vers les réseaux sociaux depuis le pied de page', async ({ page }) => {
 
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo Facebook en bas de page', async () => {
@@ -40,7 +40,7 @@ test('TC_REDI_001_Redirection_vers_les_reseaux_sociaux_au_clic_bas_de_page', asy
 })
 
 
-test('TC_REDI_002_Redirection_discord_via_la_nav_barre', async ({ page }) => {
+test('TC_REDI_002 Redirection vers le Discord depuis la barre de navigation', async ({ page }) => {
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut accéder à Discord via la barre de navigation', async () => {
         await page.goto('');
@@ -51,7 +51,7 @@ test('TC_REDI_002_Redirection_discord_via_la_nav_barre', async ({ page }) => {
 })
 
 
-test('TC_REDI_003_Redirection_mention_legal', async ({ page }) => {
+test('TC_REDI_003 Redirection vers les mentions légales', async ({ page }) => {
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut accéder aux mentions legales', async () => {
         await page.goto('');
