@@ -36,8 +36,8 @@ export class PanierSmeltcoins {
 
     async validerPanier(email = 'override@maximemougel.dev') {
         await this.popupPanier.champEmailFacturation.fill(email)
-        await this.popupPanier.checkbocConditionUtilisation.dispatchEvent("click");
-        await this.popupPanier.checkboxDroitretractation.dispatchEvent("click");
+        await this.popupPanier.checkbocConditionUtilisation.check({ force: true });
+        await this.popupPanier.checkboxDroitretractation.check({ force: true });
         await this.popupPanier.boutonPaiementPopup.click()
     }
 

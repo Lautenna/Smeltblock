@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
     await page.goto('/boutique');
     await (new CookiesPopup(page)).refuserCookies()
-    await boutiquePage.authentification.seConnecterBoutique('Youtyxx','Yvanor')
+    await boutiquePage.authentification.seConnecterBoutique('Youtyxx', 'Yvanor')
 })
 
 test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
@@ -22,7 +22,7 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
     })
 
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
-        await boutiquePage.panier.ajouterPacks(10000)
+        await boutiquePage.panier.ajouterPacks(1000)
         await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
         await expect(page.getByText('Total 9,99 €')).toBeVisible();
         await boutiquePage.panier.validerPaiementPage()
@@ -56,11 +56,6 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
 })
 
 test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
-    let boutiquePage = new BoutiquePage(page);
-    await deleteLast('plugin__commands');
-    await page.goto('/boutique');
-    await (new CookiesPopup(page)).refuserCookies()
-
     await test.step("Navigation sur l'onglet grades de la boutique", async () => {
         await page.getByRole('tab', { name: 'Grades Avantages à vie' }).click()
         await expect(page).toHaveURL('/boutique/grades')
@@ -76,8 +71,8 @@ test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
     })
 
     await test.step('Étant donné un visiteur veut prendre le grade Elite pour son ami', async () => {
-        await boutiquePage.grades.cliquerSurAutresGrades()
-        await boutiquePage.grades.cliquerSurboutonEliteOffert()
+        await boutiquePage.grades.ajouterGrade('autresGrades')
+        await boutiquePage.grades.ajouterGrade('eliteOffert')
         await expect(page.getByText('1x ÉLITE 49,99 €')).toBeVisible()
         await expect(page.getByText('Total 49,99 €')).toBeVisible()
         await boutiquePage.panier.validerPaiementPage()
