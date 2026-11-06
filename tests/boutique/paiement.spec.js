@@ -7,13 +7,15 @@ let boutiquePage;
 test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
     await deleteLast('plugin__commands');
-    await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
+    await page.goto('/boutique');
     await (new CookiesPopup(page)).refuserCookies()
     await boutiquePage.authentification.seConnecterBoutique()
 })
 
 
 test('TC_PAIE_001 Réussite du paiement', async ({ page }) => {
+    await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
+
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
     })
@@ -43,6 +45,8 @@ test('TC_PAIE_001 Réussite du paiement', async ({ page }) => {
 })
 
 test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
+    await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
+
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
     })
@@ -69,6 +73,44 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
 })
 
 
+test('TC_PAIE_003 Réussite du don', async ({ page }) => {
+    await boutiquePage.ongletBoutique.allerSurOnglet('dons')
+
+    await test.step('Étant donné un visiteur peut ajouter un don à son panier', async () => {
+        await boutiquePage.dons.ChoisirLeDon()
+        await expect(page.getByRole('button', { name: 'Ajouter 2 € au panier' })).toBeVisible()
+        await boutiquePage.dons.AjoutPanier()
+    })
+
+    await test.step('Étant donné un visiteur a bien son don dans le panier', async () => {
+        await expect(page.getByText('1x Don 2,00 € Retirer')).toBeVisible()
+        await expect(page.getByText('Total 2,00 €')).toBeVisible()
+    })
+
+    await test.step('Étant donné un visiteur peut valider son panier email', async () => {
+        await boutiquePage.panier.ouvrirValidationPanier()
+        await boutiquePage.panier.validerPanier()
+        await expect(page).toHaveURL(/checkout.stripe.com/)
+    })
+
+    await test.step('Étant donné un visiteur peut payer via stripe', async () => {
+        await expect(page.getByText('1000 Smeltcoins')).toBeVisible()
+        await expect(page.getByText('Total due€9.99')).toBeVisible()
+
+        await boutiquePage.paiementStripe.remplirCodeTestingFonctionnel()
+        await boutiquePage.paiementStripe.validerPaiement()
+
+        await expect(page).toHaveURL(/merci/, { timeout: 12_000 })
+        await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
+    })
+
+    await test.step('Le paiement est passé', async () => {
+        const paimentPanier = await selectLast('plugin__commands', 'id')
+        console.log(paimentPanier)
+        await expect(paimentPanier.command).toEqual('3achatboutiquesmeltcoins1000 Youtyxx')
+    })
+
+})
 
 
 

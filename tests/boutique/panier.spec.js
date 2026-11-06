@@ -34,7 +34,18 @@ test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
     await test.step('Étant donné un visiteur peut supprimer des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.retraitPanier(2)
         await expect(page.getByText('1x 3500 Smeltcoins 29,99 €')).toBeHidden()
-        await boutiquePage.panier.validerPaiementPage()
     })
 
+    await test.step('Étant donné un visiteur veut prendre le grade MVP+ dans son panier', async () => {
+        await boutiquePage.ongletBoutique.allerSurOnglet('grades')
+        await boutiquePage.grades.ajouterGrade('mvpPlus')
+        await expect(page.getByText('1x MVP+ 20,00 €')).toBeVisible()
+    })
+
+    await test.step('Étant donné un visiteur veut voir le total de son panier', async () => {
+        await expect(page.getByText('Total 29,99 €')).toBeVisible()
+        await boutiquePage.panier.ouvrirValidationPanier()
+        await boutiquePage.panier.validerPanier()
+        await expect(page).toHaveURL(/checkout.stripe.com/)
+    })
 })
