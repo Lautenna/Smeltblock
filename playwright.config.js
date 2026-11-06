@@ -26,11 +26,6 @@ if (process.platform === 'darwin') {
 // import path from 'path';
 // dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-// vote.spec.js insère/supprime les mêmes lignes dans une base partagée (uniq_vote_dedup) :
-// ses 3 passages (un par navigateur) sont chaînés par `dependencies` pour ne jamais tourner en même temps,
-// pendant que les autres fichiers utilisent les workers restants.
-const VOTE = '**/vote.spec.js';
-
 /**
  * @see https://playwright.dev/docs/test-configuration
  */
@@ -41,7 +36,7 @@ export default defineConfig({
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
-  retries: process.env.CI ? 1 : 1,
+  retries: process.env.CI ? 2 : 2,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
@@ -71,40 +66,17 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-      testIgnore: VOTE,
     },
 
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], launchOptions: firefoxLaunchOptions },
-      testIgnore: VOTE,
     },
 
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testIgnore: VOTE,
     },
-
-    /* vote.spec.js : un navigateur après l'autre */
-    {
-      name: 'vote-chromium',
-      testMatch: VOTE,
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'vote-firefox',
-      testMatch: VOTE,
-      use: { ...devices['Desktop Firefox'], launchOptions: firefoxLaunchOptions },
-      dependencies: ['vote-chromium'],
-    },
-    {
-      name: 'vote-webkit',
-      testMatch: VOTE,
-      use: { ...devices['Desktop Safari'] },
-      dependencies: ['vote-firefox'],
-    },
-
 
     /* Test against mobile viewports. */
     // {

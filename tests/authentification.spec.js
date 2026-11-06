@@ -7,6 +7,7 @@ test('TC_CONN_001 Connexion réussie avec un pseudo valide', async ({ page }) =>
     let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await page.goto('/vote');
+        await (new CookiesPopup(page)).refuserCookies()
         await authentification.connexionValideWarnd()
         await expect(page.locator('#infos')).toContainText('WarnD');
 
@@ -51,6 +52,7 @@ test('TC_CONN_003 Un pseudo non rempli affiche une erreur', async ({ page }) => 
     let authentification = new AuthentificationVote(page);
     await test.step("Étant donné un visiteur ne peut pas se connecter si le champs n'est pas rempli", async () => {
         await page.goto('/vote');
+        await (new CookiesPopup(page)).refuserCookies()
         await authentification.connexionVide()
         await expect(page.getByRole('alert')).toContainText("Ce pseudo Minecraft est invalide.");
 
