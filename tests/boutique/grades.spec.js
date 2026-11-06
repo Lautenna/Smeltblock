@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
     await boutiquePage.authentification.seConnecterBoutique()
 })
 
-test('TC_GRAD_002 Prix dégressif si le joueur possède déjà un grade', async ({ page }) => {
+test('TC_GRAD_001 Prix dégressif si le joueur possède déjà un grade', async ({ page }) => {
     await test.step('Étant donné un visiteur peut voir son grade déja possédé', async () => {
         await expect(page.getByText('⌞MVP⌝')).toBeVisible()
         await expect(page.getByRole('tabpanel', { name: 'Grades Avantages à vie' })).toContainText('DÉJÀ MVP')
@@ -25,9 +25,15 @@ test('TC_GRAD_002 Prix dégressif si le joueur possède déjà un grade', async 
         await expect(page.getByText('1x MVP+ 20,00 €')).toBeVisible()
 
     })
+})
+
+test('TC_GRAD_002 Élite ajoutent automatiquement MVP+ au panier', async ({ page }) => {
+    await test.step('Étant donné un visiteur peut voir son grade déja possédé', async () => {
+        await expect(page.getByText('⌞MVP⌝')).toBeVisible()
+        await expect(page.getByRole('tabpanel', { name: 'Grades Avantages à vie' })).toContainText('DÉJÀ MVP')
+    })
 
     await test.step('Étant donné un visiteur veut prendre le grade Elite, doit avoir MVP+', async () => {
-        await boutiquePage.panier.retraitPanier(1)
         await boutiquePage.grades.ajouterGrade('autresGrades')
         await boutiquePage.grades.ajouterGrade('elite')
         await expect(page.getByText('1x MVP+ 20,00 €')).toBeVisible()

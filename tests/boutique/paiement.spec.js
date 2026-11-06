@@ -72,7 +72,7 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
 
 
 
-test('TC_PAIE_005 Validation du panier bloquée si email ou case manquant', async ({ page }) => {
+test('TC_PAIE_004 Validation du panier bloquée si email ou case manquant', async ({ page }) => {
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
         await boutiquePage.panier.ouvrirValidationPanier()
