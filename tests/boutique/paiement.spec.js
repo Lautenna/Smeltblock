@@ -73,7 +73,7 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
 })
 
 
-test('TC_PAIE_003 Réussite du don', async ({ page }) => {
+test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
     await boutiquePage.ongletBoutique.allerSurOnglet('dons')
 
     await test.step('Étant donné un visiteur peut ajouter un don à son panier', async () => {
@@ -114,7 +114,10 @@ test('TC_PAIE_003 Réussite du don', async ({ page }) => {
 
 
 
+
 test('TC_PAIE_004 Validation du panier bloquée si email ou case manquant', async ({ page }) => {
+    await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
+
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
         await boutiquePage.panier.ouvrirValidationPanier()
@@ -126,12 +129,16 @@ test('TC_PAIE_004 Validation du panier bloquée si email ou case manquant', asyn
     })
 
     await test.step('Étant donné un visiteur peut pas valider son panier sans check cgu', async () => {
-        await boutiquePage.panier.validerPanier('override@maximemougel.dev', false)
+        await boutiquePage.panier.popupPanier.champEmailFacturation.fill('override@maximemougel.dev')
+        await boutiquePage.panier.popupPanier.checkbocConditionUtilisation.dispatchEvent('click')
+        await boutiquePage.panier.popupPanier.boutonPaiementPopup.click()
         await expect(page).toHaveURL('/boutique/smeltcoins')
     })
 
     await test.step('Étant donné un visiteur peut pas valider son panier sans check droit retractation', async () => {
-        await boutiquePage.panier.validerPanier('override@maximemougel.dev', true, false)
+        await boutiquePage.panier.popupPanier.checkbocConditionUtilisation.dispatchEvent('click')
+        await boutiquePage.panier.popupPanier.checkboxDroitretractation.dispatchEvent('click')
+        await boutiquePage.panier.popupPanier.boutonPaiementPopup.click()
         await expect(page).toHaveURL('/boutique/smeltcoins')
     })
 

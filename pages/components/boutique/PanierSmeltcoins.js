@@ -38,23 +38,13 @@ export class PanierSmeltcoins {
         await this.recapitulatifPanier.boutonsDeRetrait.nth(position - 1).click()
     }
 
-    async validerPanier(email = 'override@maximemougel.dev', cgu = true, dr = true) {
+    async validerPanier(email = 'override@maximemougel.dev') {
         await this.popupPanier.champEmailFacturation.fill(email)
 
-        if (cgu === false) {
-            await this.popupPanier.checkbocConditionUtilisation.uncheck({ force: true });
-        } else {
-            await this.popupPanier.checkbocConditionUtilisation.check({ force: true });
-        }
+        await this.popupPanier.checkbocConditionUtilisation.dispatchEvent('click')
+        await this.popupPanier.checkboxDroitretractation.dispatchEvent('click')
 
-        if (dr === false) {
-            await this.popupPanier.checkboxDroitretractation.uncheck({ force: true });
-        } else {
-            await this.popupPanier.checkboxDroitretractation.check({ force: true });
-
-        }
         await this.popupPanier.boutonPaiementPopup.click()
-
     }
 
     async ouvrirValidationPanier() {
