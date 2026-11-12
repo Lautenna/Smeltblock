@@ -23,7 +23,7 @@ test.beforeEach(async ({ page }) => {
     dernierIdAvantTest = borne.id
     await page.goto('/vote');
     votePage = new VotePage(page);
-    await (new CookiesPopup(page)).refuserCookies()
+    await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
 })
 
 test('TC_VOTE_001 Voir le top des voteurs de la semaine', async ({ }) => {

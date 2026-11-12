@@ -9,7 +9,7 @@ import { BarreNavigation } from '../pages/components/BarreNavigation.js';
 
 test.beforeEach(async ({ page }) => {
     await page.goto('');
-    await (new CookiesPopup(page)).refuserCookies()
+    await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
 
 })
 

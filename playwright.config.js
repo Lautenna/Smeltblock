@@ -48,6 +48,8 @@ export default defineConfig({
     ]
     : 'html',
   timeout: process.env.CI ? 60_000 : 45_000,
+  expect: { timeout: process.env.CI ? 15_000 : 5_000 },
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */

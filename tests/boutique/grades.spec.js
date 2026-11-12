@@ -8,7 +8,7 @@ let boutiquePage;
 test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
     await boutiquePage.ongletBoutique.allerSurOnglet('grades')
-    await (new CookiesPopup(page)).refuserCookies()
+    await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
     await boutiquePage.authentification.seConnecterBoutique()
 })
 

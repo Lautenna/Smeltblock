@@ -7,7 +7,7 @@ test('TC_CONN_001 Connexion réussie avec un pseudo valide', async ({ page }) =>
     let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide', async () => {
         await page.goto('/vote');
-        await (new CookiesPopup(page)).refuserCookies()
+        await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
         await authentification.connexionValideWarnd()
         await expect(page.locator('#infos')).toContainText('WarnD');
 
@@ -18,7 +18,7 @@ test('TC_CONN_002 Un pseudo inconnu refuse la connexion', async ({ page }) => {
     let authentification = new AuthentificationVote(page);
     await test.step('Étant donné un visiteur ne peut pas se connecter avec un pseudo Minecraft invalide', async () => {
         await page.goto('/vote');
-        await (new CookiesPopup(page)).refuserCookies()
+        await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
         await authentification.connexionInvalide()
         await expect(page.getByRole('alert')).toContainText("Ce joueur n'existe pas.", { timeout: 10_000 });
 
@@ -52,7 +52,7 @@ test('TC_CONN_003 Un pseudo non rempli affiche une erreur', async ({ page }) => 
     let authentification = new AuthentificationVote(page);
     await test.step("Étant donné un visiteur ne peut pas se connecter si le champs n'est pas rempli", async () => {
         await page.goto('/vote');
-        await (new CookiesPopup(page)).refuserCookies()
+        await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
         await authentification.connexionVide()
         await expect(page.getByRole('alert')).toContainText("Ce pseudo Minecraft est invalide.");
 

@@ -16,9 +16,9 @@ test.describe('CookiesPopup', () => {
 
     test('TC_COOK_002 La pop-up de cookies est masquée après rechargement', async ({ page }) => {
         await cookiesVisible.accepterCookies()
-        await expect(cookiesVisible.popup).not.toBeVisible()
+        await expect(cookiesVisible.popup).toBeHidden()
         await page.reload();
-        await expect(cookiesVisible.popup).not.toBeVisible()
+        await expect(cookiesVisible.popup).toBeHidden()
     })
 
     test('TC_COOK_003 La pop-up de cookies se réaffiche via « Gérer les cookies »', async ({ page }) => {

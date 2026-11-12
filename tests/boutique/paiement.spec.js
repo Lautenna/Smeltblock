@@ -8,7 +8,7 @@ test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
     await deleteLast('plugin__commands');
     await page.goto('/boutique');
-    await (new CookiesPopup(page)).refuserCookies()
+    await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
     await boutiquePage.authentification.seConnecterBoutique()
 })
 

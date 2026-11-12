@@ -18,6 +18,11 @@ export class CookiesPopup {
         await this.boutonRefuser.click()
     }
 
+    async refuserCookiesEtAttendreFermeture() {
+        await this.refuserCookies()
+        await this.popup.waitFor({ state: 'hidden' })
+    }
+
     async gererCookies() {
         await this.boutonConfidentialite.click()
         await this.boutonCookies.click()
