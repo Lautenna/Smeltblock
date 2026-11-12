@@ -19,7 +19,7 @@ export class PiedDePage {
         const pagePromise = this.page.context().waitForEvent('page');
         await this.boutonFacebook.click()
         const newPage = await pagePromise;
-        await newPage.waitForLoadState();
+        await newPage.waitForLoadState('commit');
         return newPage;
     }
 
@@ -27,7 +27,7 @@ export class PiedDePage {
         const pagePromise = this.page.context().waitForEvent('page');
         await this.boutonInstagram.click()
         const newPage = await pagePromise;
-        await newPage.waitForLoadState();
+        await newPage.waitForLoadState('commit');
         return newPage;
     }
 
@@ -35,7 +35,7 @@ export class PiedDePage {
         const pagePromise = this.page.context().waitForEvent('page');
         await this.boutonTiktok.click()
         const newPage = await pagePromise;
-        await newPage.waitForLoadState();
+        await newPage.waitForLoadState('commit');
         return newPage;
     }
 
@@ -43,7 +43,7 @@ export class PiedDePage {
         const pagePromise = this.page.context().waitForEvent('page');
         await this.boutonDiscord.click()
         const newPage = await pagePromise;
-        await newPage.waitForLoadState();
+        await newPage.waitForLoadState('commit');
         return newPage;
     }
 
