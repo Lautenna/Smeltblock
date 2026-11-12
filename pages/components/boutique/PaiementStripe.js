@@ -23,7 +23,10 @@ export class PaiementStripe {
             expiration: page.getByRole('textbox', { name: 'Expiration' }),
             code: page.getByRole('textbox', { name: 'Credit or debit card CVC/CVV' }),
             nomTitulaire: page.getByRole('textbox', { name: 'Cardholder name' }),
-            adresse: page.getByRole('combobox', { name: 'Address' })
+            adresse: page.getByRole('combobox', { name: 'Address' }),
+            adresseManuelle: page.getByText('Enter address manually'),
+            codePostal: page.getByRole('textbox', { name: 'Postal code' }),
+            ville: page.getByRole('textbox', { name: 'City' }),
         }
 
 
@@ -57,12 +60,15 @@ export class PaiementStripe {
         await this.champsDePaiement.code.fill("400")
         await this.champsDePaiement.nomTitulaire.fill("Potier")
         await this.champsDePaiement.adresse.fill("70 rue du Potier")
+        await this.champsDePaiement.adresseManuelle.click()
+        await this.champsDePaiement.codePostal.fill("75001")
+        await this.champsDePaiement.ville.fill("Paris")
         await this.page.waitForTimeout(1000);
         await this.page.keyboard.press('Enter')
     }
 
     async paiementManuel() {
-        await this.page.waitForTimeout(1000);
+        await expect(this.boutonPayer).toBeEnabled();
         await this.boutonPayer.click();
 
     }

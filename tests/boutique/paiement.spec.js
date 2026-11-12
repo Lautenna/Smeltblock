@@ -63,7 +63,7 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
         await boutiquePage.paiementStripe.paiementSansLink()
         await boutiquePage.paiementStripe.remplirInformationPaiement()
         await boutiquePage.paiementStripe.paiementManuel()
-        await expect(page.getByRole('group', { name: 'Card information' })).toContainText('Your credit card was declined. Try paying with a debit card instead.');
+        await expect(page.getByRole('group', { name: 'Card information' })).toContainText('Your credit card was declined. Try paying with a debit card instead.', { timeout: 20_000 });
     })
 
     await test.step('Le paiement est passé', async () => {
