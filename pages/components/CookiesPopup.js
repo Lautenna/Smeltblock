@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test'
+
 export class CookiesPopup {
 
     /** @param {import("@playwright/test").Page} page */
@@ -20,7 +22,7 @@ export class CookiesPopup {
 
     async refuserCookiesEtAttendreFermeture() {
         await this.refuserCookies()
-        await this.popup.waitFor({ state: 'hidden' })
+        await expect(this.popup).toBeHidden()
     }
 
     async gererCookies() {

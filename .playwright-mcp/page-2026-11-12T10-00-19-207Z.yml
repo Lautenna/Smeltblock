@@ -1,0 +1,184 @@
+- generic [active] [ref=e1]:
+  - link "Aller au contenu" [ref=e2] [cursor=pointer]:
+    - /url: "#body"
+  - navigation "Navigation principale" [ref=e4]:
+    - generic [ref=e5]:
+      - text:  
+      - link "ACCUEIL" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - generic [aria-hidden] [ref=e7]:  
+        - text: ACCUEIL
+      - link "ACTUS" [ref=e8] [cursor=pointer]:
+        - /url: /actus
+        - generic [aria-hidden] [ref=e9]:  
+        - text: ACTUS
+      - link "WIKI" [ref=e10] [cursor=pointer]:
+        - /url: /wiki
+        - generic [aria-hidden] [ref=e11]:  
+        - text: WIKI
+      - link "VOTE" [ref=e12] [cursor=pointer]:
+        - /url: /vote
+        - generic [aria-hidden] [ref=e13]:  
+        - text: VOTE
+      - link "BOUTIQUE" [ref=e14] [cursor=pointer]:
+        - /url: /boutique
+        - generic [aria-hidden] [ref=e15]:  
+        - text: BOUTIQUE
+      - link " DISCORD" [ref=e16] [cursor=pointer]:
+        - /url: /discord
+        - generic [ref=e17]: 
+        - text: DISCORD
+    - group:        
+  - generic [ref=e22]:
+    - banner [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e26]:
+          - img "SmeltBlock" [ref=e27]
+          - generic [ref=e28]:
+            - heading "LE SKYBLOCK SANS PAY2WIN" [level=1] [ref=e29]:
+              - generic [ref=e30]: LE SKYBLOCK
+              - generic [ref=e31]: SANS PAY2WIN
+            - heading "Serveur Minecraft Java français en 1.20.4. Une aventure durable, une progression équitable." [level=2] [ref=e32]: Serveur Minecraft Java français en 1.20.4.Une aventure durable, une progression équitable.
+            - generic [ref=e34]:
+              - 'button "Copier l’adresse du serveur : play.smeltblock.com" [ref=e35] [cursor=pointer]':
+                - generic [ref=e36]: play.smeltblock.com
+                - generic:
+                  - generic [aria-hidden]:  
+                  - generic: Copier l’IP
+              - generic [ref=e37]: 1.20.4
+            - generic [ref=e38]:
+              - generic [ref=e39]: En ligne
+              - generic [ref=e43]:
+                - text: "20"
+                - generic [ref=e44]: joueurs connectés
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - generic [ref=e47]: +100k
+            - text: joueurs
+          - generic [ref=e48]:
+            - generic [ref=e49]: 15 MÀJ
+            - text: par mois
+          - generic [ref=e50]:
+            - generic [ref=e51]: De 2016
+            - text: à aujourd'hui !
+          - generic [ref=e52]:
+            - generic [ref=e53]: 0%
+            - text: Pay2Win
+    - main [ref=e54]:
+      - generic [ref=e58]:
+        - heading "TA NOUVELLE AVENTURE SKYBLOCK." [level=2] [ref=e59]
+        - paragraph [ref=e60]: Depuis 2016, SmeltBlock propose un serveur Minecraft avec une expérience Skyblock unique et complète.
+        - paragraph [ref=e61]: Un vrai gameplay Farm2Win et long terme avec une communauté mature.
+        - paragraph [ref=e62]: Découvre pourquoi plus de 100 000 joueurs ont déjà rejoint le meilleur Skyblock !
+      - generic [ref=e70]:
+        - heading "DU FARM AGRÉABLE, GARANTI SANS PAY2WIN." [level=2] [ref=e71]
+        - paragraph [ref=e72]: Progression 100% plaisir, sans routine, chaque rang offre de nouvelles mécaniques.
+        - paragraph [ref=e73]: "Nos innovations exclusives améliorent l’expérience de farm : Cube à minerais, cube à mobs, stockage infini, aimant, WorldEdit joueur..."
+        - paragraph [ref=e74]: Tout ça dans un bon équilibre sans Pay2Win pour ruiner l’expérience.
+      - generic [ref=e78]:
+        - heading "GAMEPLAY VARIÉ & ACCESSIBLE." [level=2] [ref=e79]
+        - paragraph [ref=e80]: Difficulté réglable - Tryharder ou casu, à toi de choisir.
+        - paragraph [ref=e81]: Nether, End et 3 dimensions à explorer & farmer - Contenu riche !
+        - paragraph [ref=e82]: Équilibrage avancé - Joueurs à égalité pour un confort optimal
+        - paragraph [ref=e83]: Serveur et gameplay long terme - Un serveur pensé pour durer, sans reset tous les 3 mois
+        - paragraph [ref=e84]: 50 prestiges de métier - Débloquer des outils et compétences ultra-efficaces !
+        - paragraph [ref=e85]: Tournois - Compétition fun ouverte à tous
+      - generic [ref=e91]:
+        - heading "ACCUEILLANTS ET ACTIFS." [level=2] [ref=e92]
+        - paragraph [ref=e93]: Le meilleur du Skyblock... maintenu et une communauté active.
+        - paragraph [ref=e94]: Mises à jour régulières, évènements, entraide. Chaque joueur compte vraiment !
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - generic [ref=e100]:
+            - heading "NOUS REJOINDRE ? RIEN DE PLUS SIMPLE !" [level=2] [ref=e101]
+            - paragraph [ref=e102]: Plus de 100 000 joueurs ont déjà rejoint le serveur avant toi, fais augmenter cette statistique !
+            - paragraph [ref=e103]: Notre Skyblock requiert une version payante de Minecraft et n’accepte pas les versions Bedrock.
+          - generic [ref=e104]:
+            - generic [aria-hidden] [ref=e107]: "1"
+            - generic [ref=e108]:
+              - heading "LANCE MINECRAFT EN 1.20.4" [level=3] [ref=e110]
+              - paragraph [ref=e111]: "Va dans Multijoueur puis connecte-toi au serveur :"
+              - 'button "Copier l’adresse du serveur : play.smeltblock.com" [ref=e114] [cursor=pointer]':
+                - generic [ref=e115]: play.smeltblock.com
+                - generic:
+                  - generic [aria-hidden]:  
+                  - generic: Copier l’IP
+            - generic [aria-hidden] [ref=e116]: "2"
+            - generic [ref=e117]:
+              - heading "DÉBUTE TON AVENTURE SKYBLOCK !" [level=3] [ref=e119]
+              - paragraph [ref=e120]: Un tutoriel te guidera en jeu pas à pas.
+              - paragraph [ref=e121]: Remplis des quêtes et commence ton ascension !
+              - paragraph [ref=e122]: Besoin d’aide ou de savoir par où commencer ?
+              - link "CONSULTE LE WIKI !" [ref=e124] [cursor=pointer]:
+                - /url: /wiki
+            - generic [aria-hidden] [ref=e125]: "3"
+            - generic [ref=e126]:
+              - heading "REJOINS LA COMMUNAUTÉ !" [level=3] [ref=e128]
+              - paragraph [ref=e129]: SmeltBlock, c’est une communauté vivante de plus de 5000 membres.
+              - paragraph [ref=e130]: Discussion, entraide, et même collaboration sur une île en commun !
+              - link " REJOINS LE DISCORD !" [ref=e132] [cursor=pointer]:
+                - /url: /discord
+                - generic [ref=e133]: 
+                - text: REJOINS LE DISCORD !
+        - heading "UNE QUESTION ?" [level=2] [ref=e134]
+        - generic [ref=e135]:
+          - group "Comment rejoindre SmeltBlock ?" [ref=e136] [cursor=pointer]:
+            - generic "Comment rejoindre SmeltBlock ? +" [ref=e137]:
+              - text: Comment rejoindre SmeltBlock ?
+              - generic [ref=e138]: +
+          - group "Faut-il acheter quelque chose pour jouer ?" [ref=e139] [cursor=pointer]:
+            - generic "Faut-il acheter quelque chose pour jouer ? +" [ref=e140]:
+              - text: Faut-il acheter quelque chose pour jouer ?
+              - generic [ref=e141]: +
+          - group "Puis-je jouer depuis Minecraft Bedrock ?" [ref=e142] [cursor=pointer]:
+            - generic "Puis-je jouer depuis Minecraft Bedrock ? +" [ref=e143]:
+              - text: Puis-je jouer depuis Minecraft Bedrock ?
+              - generic [ref=e144]: +
+          - group "Où trouver de l’aide en jeu ?" [ref=e145] [cursor=pointer]:
+            - generic "Où trouver de l’aide en jeu ? +" [ref=e146]:
+              - text: Où trouver de l’aide en jeu ?
+              - generic [ref=e147]: +
+          - group "Est-ce qu'un reset est bientôt prévu ?" [ref=e148] [cursor=pointer]:
+            - generic "Est-ce qu'un reset est bientôt prévu ? +" [ref=e149]:
+              - text: Est-ce qu'un reset est bientôt prévu ?
+              - generic [ref=e150]: +
+  - contentinfo [ref=e152]:
+    - generic [ref=e157]:
+      - generic [ref=e158]:
+        - generic [ref=e160]:
+          - paragraph [ref=e161]: Smeltblock est un serveur Skyblock français existant depuis 2016.
+          - paragraph [ref=e162]:
+            - text: Fièrement hébergé par notre
+            - link "partenaire" [ref=e163]:
+              - /url: /partenaires
+            - link "Minestrator" [ref=e164] [cursor=pointer]:
+              - /url: https://minestrator.com/
+            - text: (-10% avec le code "SMELTBLOCK")
+        - generic [ref=e165]:
+          - link "Mentions légales" [ref=e166] [cursor=pointer]:
+            - /url: /mentions-legales
+          - link "CGU" [ref=e167] [cursor=pointer]:
+            - /url: /cgu
+          - link "CGV" [ref=e168] [cursor=pointer]:
+            - /url: /cgv
+          - link "Confidentialité" [ref=e169] [cursor=pointer]:
+            - /url: /politique-confidentialite
+      - separator [ref=e170]
+      - generic [ref=e172]:
+        - generic [ref=e173]:
+          - link "Discord" [ref=e174] [cursor=pointer]:
+            - /url: /discord
+            - generic [ref=e175]: 
+          - link "Instagram" [ref=e176] [cursor=pointer]:
+            - /url: https://www.instagram.com/smeltblock/
+            - generic [ref=e177]: 
+          - link "Tiktok" [ref=e178] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@smeltblockfr
+            - generic [ref=e179]: 
+          - link "Facebook" [ref=e180] [cursor=pointer]:
+            - /url: https://www.facebook.com/SmeltBlock/
+            - generic [ref=e181]: 
+        - generic [ref=e182]: © 2026 Smeltblock - Tous droits réservés.
+        - link "Site réalisé par Maxime Mougel" [ref=e184] [cursor=pointer]:
+          - /url: https://maximemougel.dev
+  - generic:      

@@ -1,11 +1,17 @@
 import { test, expect } from '@playwright/test';
 import { RedirectionPage } from "../pages/RedirectionPage";
+import { CookiesPopup } from '../pages/components/CookiesPopup';
+
+test.beforeEach(async ({ page }) => {
+    await page.goto('');
+    await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
+
+})
 
 test('TC_REDI_001 Redirection vers les réseaux sociaux depuis le pied de page', async ({ page }) => {
 
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo Facebook en bas de page', async () => {
-        await page.goto('');
         const facebookPage = await redirectionPage.piedDePage.ouvrirFacebook()
         await expect(facebookPage).toHaveURL("https://www.facebook.com/SmeltBlock/")
 
@@ -43,7 +49,6 @@ test('TC_REDI_001 Redirection vers les réseaux sociaux depuis le pied de page',
 test('TC_REDI_002 Redirection vers le Discord depuis la barre de navigation', async ({ page }) => {
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut accéder à Discord via la barre de navigation', async () => {
-        await page.goto('');
         const boutonDiscordNav = await redirectionPage.barreNavigation.ouvrirDiscord()
         await expect(boutonDiscordNav).toHaveURL("https://discord.com/invite/smeltblock")
 
@@ -54,7 +59,6 @@ test('TC_REDI_002 Redirection vers le Discord depuis la barre de navigation', as
 test('TC_REDI_003 Redirection vers les mentions légales', async ({ page }) => {
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut accéder aux mentions legales', async () => {
-        await page.goto('');
         await redirectionPage.piedDePage.ouvrirMentionsLegales()
         await expect(page).toHaveURL("/mentions-legales")
     })

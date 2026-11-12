@@ -1,0 +1,4 @@
+[     551ms] [WARNING] <link rel=preload> must have a valid `as` value @ https://laura:playwright@azure-pelican-926599.hostingersite.com/:1
+[     551ms] [WARNING] <link rel=preload> must have a valid `as` value @ https://laura:playwright@azure-pelican-926599.hostingersite.com/:1
+[     680ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://azure-pelican-926599.hostingersite.com/assets/bootstrap.js:1
+[     724ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://azure-pelican-926599.hostingersite.com/assets/app--light.js:1
