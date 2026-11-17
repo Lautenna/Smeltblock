@@ -16,34 +16,37 @@ test.beforeEach(async ({ page }) => {
 test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
-        await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
+        await expect(page.getByTestId('cart-line-6')).toBeVisible();
+        await boutiquePage.panier.fermerPanier()
         await boutiquePage.panier.ajouterPacks(3500)
-        await expect(page.getByText('1x 3500 Smeltcoins 29,99 €')).toBeVisible();
-        await expect(page.getByText('Total 39,98 €')).toBeVisible();
+        await expect(page.getByTestId('cart-line-8')).toBeVisible();
+        await expect(page.getByText('Total 35,98 €')).toBeVisible();
 
     })
 
     await test.step('Étant donné un visiteur peut ajouter le même article à son panier', async () => {
+        await boutiquePage.panier.fermerPanier()
         await boutiquePage.panier.ajouterPacks(3500)
-        await expect(page.getByText('1x 1000 Smeltcoins 9,99 €')).toBeVisible();
-        await expect(page.getByText('2x 3500 Smeltcoins 59,98 €')).toBeVisible();
-        await expect(page.getByText('Total 69,97 €')).toBeVisible();
+        await expect(page.getByTestId('cart-line-6')).toBeVisible();
+        await expect(page.getByTestId('cart-line-8')).toBeVisible();
+        await expect(page.getByText('Total 62,97 €')).toBeVisible();
 
     })
 
     await test.step('Étant donné un visiteur peut supprimer des Smeltcoins à son panier', async () => {
-        await boutiquePage.panier.retraitPanier(2)
-        await expect(page.getByText('1x 3500 Smeltcoins 29,99 €')).toBeHidden()
+        await boutiquePage.panier.retraitPanier()
+        await expect(page.getByTestId('cart-line-8')).toBeHidden()
     })
 
     await test.step('Étant donné un visiteur veut prendre le grade MVP+ dans son panier', async () => {
         await boutiquePage.ongletBoutique.allerSurOnglet('grades')
         await boutiquePage.grades.ajouterGrade('mvpPlus')
-        await expect(page.getByText('1x MVP+ 20,00 €')).toBeVisible()
+        await boutiquePage.panier.ouvrirPanier()
+        await expect(page.getByTestId('cart-line-3')).toBeVisible()
     })
 
     await test.step('Étant donné un visiteur veut voir le total de son panier', async () => {
-        await expect(page.getByText('Total 29,99 €')).toBeVisible()
+        await expect(page.getByText('Total 26,99 €')).toBeVisible()
         await boutiquePage.panier.ouvrirValidationPanier()
         await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)

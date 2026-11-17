@@ -3,10 +3,10 @@ export class Grades {
     constructor(page) {
         this.page = page;
         this.boutons = {
-            elite: page.getByRole('button', { name: 'DEVENIR ÉLITE' }),
+            elite: page.getByTestId('grade-add-4'),
             eliteOffert: page.getByRole('button', { name: 'OFFRIR ÉLITE' }),
-            mvpPlus: page.getByRole('button', { name: 'DEVENIR MVP+' }),
-            autresGrades: page.getByRole('button', { name: 'ÉLITES & ULTIME  ' })
+            mvpPlus: page.getByTestId('grade-add-3'),
+            autresGrades: page.getByRole('switch', { name: 'Grades spéciaux' })
 
         }
         this.carteMvpPlus = page.locator('[data-live-name-value="Boutique:ProduitCard"]:visible').filter({ hasText: 'Le grade le plus populaire' })

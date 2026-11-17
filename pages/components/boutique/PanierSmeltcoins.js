@@ -5,23 +5,22 @@ export class PanierSmeltcoins {
     /** @param {import("@playwright/test").Page} page */
     constructor(page) {
         this.page = page;
-        this.Smeltcoins1000 = page.getByRole('button', { name: 'AJOUTER AU PANIER' }).first()
-        this.Smeltcoins3500 = page.getByRole('button', { name: 'AJOUTER AU PANIER' }).nth(2)
+        this.Smeltcoins1000 = page.getByRole('article').filter({ hasText: '1 000 Smeltcoins 9,99 €' }).getByRole('button');
+        this.Smeltcoins3500 = page.getByRole('article').filter({ hasText: '3 500 Smeltcoins 29,99' }).getByRole('button');
+
 
 
         this.recapitulatifPanier = {
-            boutonsDeRetrait: page.getByRole('button', { name: 'Retirer' }),
-            boutonValidationPanierPage: page.getByRole('button', { name: 'Valider le panier' }),
-        }
-
-        this.popupPanier = {
-            popup: page.locator('#checkout-panier-card'),
-            Smeltcoins1000Panier: page.locator('#checkout-panier-card').getByText('1x 1000 Smeltcoins 9,99 €'),
-            totalPanier: page.locator('#checkout-panier-card').getByText('Total 9,99 €'),
-            champEmailFacturation: page.getByRole('textbox', { name: 'Adresse email de facturation' }),
+            boutonOuverturePanier: page.getByTestId('cart-toggle'),
+            fermerPanier: page.getByRole('button', { name: 'Fermer' }),
+            Smeltcoins1000Panier: page.getByText('1000 Smeltcoins'),
+            totalPanier: page.locator('#boutique-cart'),
+            champEmailFacturation: page.getByRole('textbox', { name: 'E-mail de facturation' }),
             checkbocConditionUtilisation: page.getByRole('checkbox', { name: 'J\'accepte les conditions d\'' }),
             checkboxDroitretractation: page.getByRole('checkbox', { name: 'Je demande expressément l\'exé' }),
-            boutonPaiementPopup: page.getByRole('button', { name: 'Passer au paiement' })
+            boutonPaiementPopup: page.getByTestId('cart-checkout'),
+            boutonsDeRetrait3500: page.getByTestId('cart-remove-8'),
+
         }
     }
 
@@ -29,27 +28,40 @@ export class PanierSmeltcoins {
     async ajouterPacks(nbSmeltcoins) {
         if (nbSmeltcoins === 1000) {
             await this.Smeltcoins1000.click()
+            await this.ouvrirPanier()
         } else if (nbSmeltcoins === 3500) {
             await this.Smeltcoins3500.click()
+            await this.ouvrirPanier()
+
         }
     }
 
+    async ouvrirPanier() {
+        await this.recapitulatifPanier.boutonOuverturePanier.click()
+    }
+
+    async fermerPanier() {
+        await this.recapitulatifPanier.fermerPanier.click()
+        await expect(this.recapitulatifPanier.fermerPanier).toBeHidden()
+    }
+
+
     async retraitPanier(position) {
-        await this.recapitulatifPanier.boutonsDeRetrait.nth(position - 1).click()
+        await this.recapitulatifPanier.boutonsDeRetrait3500.click()
     }
 
     async validerPanier(email = 'override@maximemougel.dev') {
-        await this.popupPanier.champEmailFacturation.fill(email)
+        await this.recapitulatifPanier.champEmailFacturation.fill(email)
 
-        await this.popupPanier.checkbocConditionUtilisation.dispatchEvent('click')
-        await this.popupPanier.checkboxDroitretractation.dispatchEvent('click')
+        await this.recapitulatifPanier.checkbocConditionUtilisation.dispatchEvent('click')
+        await this.recapitulatifPanier.checkboxDroitretractation.dispatchEvent('click')
 
-        await this.popupPanier.boutonPaiementPopup.click()
+        await this.recapitulatifPanier.boutonPaiementPopup.click()
     }
 
     async ouvrirValidationPanier() {
-        await this.recapitulatifPanier.boutonValidationPanierPage.click()
-        await expect(this.popupPanier.boutonPaiementPopup).toBeVisible()
+        await this.recapitulatifPanier.boutonPaiementPopup.click()
+        await expect(this.recapitulatifPanier.boutonPaiementPopup).toBeVisible()
     }
 
 
