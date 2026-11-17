@@ -14,7 +14,7 @@ test.beforeEach(async ({ page }) => {
 })
 
 test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
-    await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
+    await test.step('Étant donné un visiteur peut ajouter 1000 Smeltcoins à son panier', async () => {
         await boutiquePage.panier.ajouterPacks(1000)
         await expect(page.getByTestId('cart-line-6')).toBeVisible();
         await boutiquePage.panier.fermerPanier()

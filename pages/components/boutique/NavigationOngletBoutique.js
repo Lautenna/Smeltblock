@@ -6,7 +6,7 @@ export class NavigationOngletBoutique {
     /** @param {import("@playwright/test").Page} page */
     constructor(page) {
         this.page = page;
-        this.tabSmeltcoins = page.getByRole('tab', { name: 'Smeltcoins Cadeau de' })
+        this.tabSmeltcoins = page.getByRole('tab', { name: 'Smeltcoins' })
         this.tabGrades = page.getByRole('tab', { name: 'Grades' })
         this.tabDons = page.getByRole('tab', { name: 'Dons' })
     }

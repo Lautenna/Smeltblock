@@ -16,10 +16,12 @@ export class AuthentificationBoutique {
 
     async seConnecterBoutique(pseudo = 'Youtyxx', pseudoAmi = '') {
         await this.boutonSeConnecterPage.click()
+        await expect(this.champPseudo).toBeEnabled()
         await this.champPseudo.fill(pseudo)
         await this.boutonContinuer.click()
         if (pseudoAmi !== '') {
             await this.offrirCadeauAmi.dispatchEvent("click")
+            await expect(this.champPseudoAmi).toBeEnabled()
             await this.champPseudoAmi.fill(pseudoAmi)
             await this.validerPseudoAmi.click()
         }

@@ -9,7 +9,6 @@ export class PanierSmeltcoins {
         this.Smeltcoins3500 = page.getByRole('article').filter({ hasText: '3 500 Smeltcoins 29,99' }).getByRole('button');
 
 
-
         this.recapitulatifPanier = {
             boutonOuverturePanier: page.getByTestId('cart-toggle'),
             fermerPanier: page.getByRole('button', { name: 'Fermer' }),
@@ -59,6 +58,7 @@ export class PanierSmeltcoins {
     }
 
     async validerPanier(email = 'override@maximemougel.dev') {
+        await expect(this.recapitulatifPanier.champEmailFacturation).toBeEnabled()
         await this.recapitulatifPanier.champEmailFacturation.fill(email)
 
         await this.recapitulatifPanier.checkbocConditionUtilisation.dispatchEvent('click')
@@ -68,8 +68,8 @@ export class PanierSmeltcoins {
     }
 
     async ouvrirValidationPanier() {
-        await this.recapitulatifPanier.boutonPaiementPopup.click()
         await expect(this.recapitulatifPanier.boutonPaiementPopup).toBeVisible()
+        await this.recapitulatifPanier.boutonPaiementPopup.click()
     }
 
 

@@ -4,45 +4,40 @@ export class PaiementStripe {
     /** @param {import("@playwright/test").Page} page */
     constructor(page) {
         this.page = page;
-        this.codeLink = {
-            code1: page.getByTestId('sms-code-input-0'),
-            code2: page.getByTestId('sms-code-input-1'),
-            code3: page.getByTestId('sms-code-input-2'),
-            code4: page.getByTestId('sms-code-input-3'),
-            code5: page.getByTestId('sms-code-input-4'),
-            code6: page.getByTestId('sms-code-input-5'),
-        }
-        this.boutonPaiement = page.getByTestId('hosted-payment-submit-button')
+        this.stripeFormulaire = page.frameLocator('iframe[title="Secure embedded form frame"]')
+        this.codeLink = this.stripeFormulaire.getByTestId('code-controlling-input')
+        this.boutonPaiement = this.stripeFormulaire.getByTestId('payment-form-submit-button')
 
-        this.boutonSansLink = page.getByRole('button', { name: 'Pay without Link' })
-        this.boutonCarte = page.getByTestId('card-accordion-item-button')
-        this.boutonPayer = page.getByTestId('hosted-payment-submit-button')
+        this.boutonSansLink = this.stripeFormulaire.getByRole('button', { name: 'Pay without Link' })
+        this.boutonCarte = this.stripeFormulaire.locator('css=[data-value="card"]')
+        this.boutonPayer = this.stripeFormulaire.getByTestId('payment-form-submit-button')
 
         this.champsDePaiement = {
-            carte: page.getByRole('textbox', { name: 'Card number' }),
-            expiration: page.getByRole('textbox', { name: 'Expiration' }),
-            code: page.getByRole('textbox', { name: 'Credit or debit card CVC/CVV' }),
-            nomTitulaire: page.getByRole('textbox', { name: 'Cardholder name' }),
-            adresse: page.getByRole('combobox', { name: 'Address' }),
-            adresseManuelle: page.getByText('Enter address manually'),
-            codePostal: page.getByRole('textbox', { name: 'Postal code' }),
-            ville: page.getByRole('textbox', { name: 'City' }),
+            carte: this.stripeFormulaire.getByRole('textbox', { name: 'Card number' }),
+            expiration: this.stripeFormulaire.getByRole('textbox', { name: 'Expiration' }),
+            code: this.stripeFormulaire.locator('#payment-cvcInput'),
+            nomTitulaire: this.stripeFormulaire.locator('#billingAddress-nameInput'),
+            adresse: this.stripeFormulaire.locator('#billingAddress-addressLine1Input'),
+            adresseManuelle: this.stripeFormulaire.getByText('Enter address manually'),
+            codePostal: this.stripeFormulaire.locator('#billingAddress-postalCodeInput'),
+            ville: this.stripeFormulaire.locator('#billingAddress-localityInput'),
         }
+    }
 
-
+    async attendreChargementStripe() {
+        // Chargement colonne gauche
+        await expect(this.page.getByTestId('order-summary-column')).toBeVisible()
+        // Chargement colonne droite (dans iframe)
+        await expect(this.stripeFormulaire.locator('div').first()).toBeVisible()
     }
 
     async remplirCodeTestingFonctionnel() {
-        await this.codeLink.code1.fill("0")
-        await this.codeLink.code2.fill("0")
-        await this.codeLink.code3.fill("0")
-        await this.codeLink.code4.fill("0")
-        await this.codeLink.code5.fill("0")
-        await this.codeLink.code6.fill("0")
+        await expect(this.codeLink).toBeEnabled()
+        await this.codeLink.fill('000000')
     }
 
     async validerPaiement() {
-        await expect(this.codeLink.code1).toBeHidden()
+        await expect(this.codeLink).toBeHidden()
         await expect(this.boutonPaiement).toBeVisible()
         await this.page.waitForTimeout(500);
         await this.boutonPaiement.dispatchEvent("click");
@@ -60,7 +55,8 @@ export class PaiementStripe {
         await this.champsDePaiement.code.fill("400")
         await this.champsDePaiement.nomTitulaire.fill("Potier")
         await this.champsDePaiement.adresse.fill("70 rue du Potier")
-        await this.champsDePaiement.adresseManuelle.click()
+        await this.page.waitForTimeout(1000);
+        await this.page.keyboard.press('Tab')
         await this.champsDePaiement.codePostal.fill("75001")
         await this.champsDePaiement.ville.fill("Paris")
         await this.page.waitForTimeout(1000);

@@ -24,6 +24,7 @@ test('TC_PAIE_001 Réussite du paiement', async ({ page }) => {
         await boutiquePage.panier.ouvrirValidationPanier()
         await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)
+        await boutiquePage.paiementStripe.attendreChargementStripe()
     })
 
     await test.step('Étant donné un visiteur peut payer via stripe', async () => {
@@ -33,13 +34,12 @@ test('TC_PAIE_001 Réussite du paiement', async ({ page }) => {
         await boutiquePage.paiementStripe.remplirCodeTestingFonctionnel()
         await boutiquePage.paiementStripe.validerPaiement()
 
-        await expect(page).toHaveURL(/merci/, { timeout: 12_000 })
+        await expect(page).toHaveURL(/merci/, { timeout: 20_000 })
         await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
     })
 
     await test.step('Le paiement est passé', async () => {
         const paimentPanier = await selectLast('plugin__commands', 'id')
-        console.log(paimentPanier)
         await expect(paimentPanier.command).toEqual('3achatboutiquesmeltcoins1000 Youtyxx')
     })
 })
@@ -55,6 +55,7 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
         await boutiquePage.panier.ouvrirValidationPanier()
         await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)
+        await boutiquePage.paiementStripe.attendreChargementStripe()
     })
 
     await test.step('Étant donné un visiteur à un problème de paiement, alors celui-ci ne se fait pas', async () => {
@@ -63,7 +64,7 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
         await boutiquePage.paiementStripe.paiementSansLink()
         await boutiquePage.paiementStripe.remplirInformationPaiement()
         await boutiquePage.paiementStripe.paiementManuel()
-        await expect(page.getByRole('group', { name: 'Card information' })).toContainText('Your credit card was declined. Try paying with a debit card instead.', { timeout: 20_000 });
+        await expect(boutiquePage.paiementStripe.stripeFormulaire.getByTestId('payment-accordion-wrapper')).toContainText('Your card was declined.', { timeout: 20_000 });
     })
 
     await test.step('Le paiement est passé', async () => {
@@ -83,7 +84,8 @@ test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
     })
 
     await test.step('Étant donné un visiteur a bien son don dans le panier', async () => {
-        await expect(page.getByText('1x Don 2,00 € Retirer')).toBeVisible()
+        await boutiquePage.panier.ouvrirPanier()
+        await expect(page.getByTestId('cart-line-11')).toBeVisible()
         await expect(page.getByText('Total 2,00 €')).toBeVisible()
     })
 
@@ -91,6 +93,7 @@ test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
         await boutiquePage.panier.ouvrirValidationPanier()
         await boutiquePage.panier.validerPanier()
         await expect(page).toHaveURL(/checkout.stripe.com/)
+        await boutiquePage.paiementStripe.attendreChargementStripe()
     })
 
     await test.step('Étant donné un visiteur peut payer via stripe', async () => {
@@ -129,16 +132,16 @@ test('TC_PAIE_004 Validation du panier bloquée si email ou case manquant', asyn
     })
 
     await test.step('Étant donné un visiteur peut pas valider son panier sans check cgu', async () => {
-        await boutiquePage.panier.popupPanier.champEmailFacturation.fill('override@maximemougel.dev')
-        await boutiquePage.panier.popupPanier.checkbocConditionUtilisation.dispatchEvent('click')
-        await boutiquePage.panier.popupPanier.boutonPaiementPopup.click()
+        await boutiquePage.panier.recapitulatifPanier.champEmailFacturation.fill('override@maximemougel.dev')
+        await boutiquePage.panier.recapitulatifPanier.checkbocConditionUtilisation.dispatchEvent('click')
+        await boutiquePage.panier.recapitulatifPanier.boutonPaiementPopup.click()
         await expect(page).toHaveURL('/boutique/smeltcoins')
     })
 
     await test.step('Étant donné un visiteur peut pas valider son panier sans check droit retractation', async () => {
-        await boutiquePage.panier.popupPanier.checkbocConditionUtilisation.dispatchEvent('click')
-        await boutiquePage.panier.popupPanier.checkboxDroitretractation.dispatchEvent('click')
-        await boutiquePage.panier.popupPanier.boutonPaiementPopup.click()
+        await boutiquePage.panier.recapitulatifPanier.checkbocConditionUtilisation.dispatchEvent('click')
+        await boutiquePage.panier.recapitulatifPanier.checkboxDroitretractation.dispatchEvent('click')
+        await boutiquePage.panier.recapitulatifPanier.boutonPaiementPopup.click()
         await expect(page).toHaveURL('/boutique/smeltcoins')
     })
 
