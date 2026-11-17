@@ -53,7 +53,7 @@ export class PanierSmeltcoins {
         if (elementRetire === '3500 smeltcoins') {
             await this.elementASupprimer.retrait3500.click()
 
-        } else if (elementRetire === 'garde elite') {
+        } else if (elementRetire === 'grade elite') {
             await this.elementASupprimer.retraitEliteGrades.click()
         }
     }

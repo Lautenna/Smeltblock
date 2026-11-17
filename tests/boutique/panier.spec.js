@@ -50,10 +50,9 @@ test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
         await boutiquePage.grades.ajouterGrade('autresGrades')
         await boutiquePage.grades.ajouterGrade('elite')
         await boutiquePage.panier.ouvrirPanier()
-        await boutiquePage.panier.retraitPanier('garde elite')
+        await boutiquePage.panier.retraitPanier('grade elite')
         await expect(page.getByTestId('cart-line-4')).toBeHidden()
         await expect(page.getByTestId('cart-line-3')).toContainText('20,00 €')
-
     })
 
     await test.step('Étant donné un visiteur veut voir le total de son panier', async () => {
