@@ -34,7 +34,7 @@ test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
     })
 
     await test.step('Étant donné un visiteur peut supprimer des Smeltcoins à son panier', async () => {
-        await boutiquePage.panier.retraitPanier()
+        await boutiquePage.panier.retraitPanier('3500 smeltcoins')
         await expect(page.getByTestId('cart-line-8')).toBeHidden()
     })
 
@@ -43,6 +43,17 @@ test('TC_PANI_001 Mise à jour du panier', async ({ page }) => {
         await boutiquePage.grades.ajouterGrade('mvpPlus')
         await boutiquePage.panier.ouvrirPanier()
         await expect(page.getByTestId('cart-line-3')).toBeVisible()
+    })
+
+    await test.step('Étant donné un visiteur veut prendre le grade Elite dans son panier puis le supprimer', async () => {
+        await boutiquePage.panier.fermerPanier()
+        await boutiquePage.grades.ajouterGrade('autresGrades')
+        await boutiquePage.grades.ajouterGrade('elite')
+        await boutiquePage.panier.ouvrirPanier()
+        await boutiquePage.panier.retraitPanier('garde elite')
+        await expect(page.getByTestId('cart-line-4')).toBeHidden()
+        await expect(page.getByTestId('cart-line-3')).toContainText('20,00 €')
+
     })
 
     await test.step('Étant donné un visiteur veut voir le total de son panier', async () => {

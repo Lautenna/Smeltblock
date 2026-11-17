@@ -9,7 +9,7 @@ export class Grades {
             autresGrades: page.getByRole('switch', { name: 'Grades spéciaux' })
 
         }
-        this.carteMvpPlus = page.locator('[data-live-name-value="Boutique:ProduitCard"]:visible').filter({ hasText: 'Le grade le plus populaire' })
+        this.carteMvpPlus = page.getByText('MVP+ Le plus populaire ! 20,')
     }
 
 

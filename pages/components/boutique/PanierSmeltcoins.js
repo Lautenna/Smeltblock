@@ -19,7 +19,10 @@ export class PanierSmeltcoins {
             checkbocConditionUtilisation: page.getByRole('checkbox', { name: 'J\'accepte les conditions d\'' }),
             checkboxDroitretractation: page.getByRole('checkbox', { name: 'Je demande expressément l\'exé' }),
             boutonPaiementPopup: page.getByTestId('cart-checkout'),
-            boutonsDeRetrait3500: page.getByTestId('cart-remove-8'),
+        }
+        this.elementASupprimer = {
+            retrait3500: page.getByTestId('cart-remove-8'),
+            retraitEliteGrades: page.getByTestId('cart-remove-4'),
 
         }
     }
@@ -32,7 +35,6 @@ export class PanierSmeltcoins {
         } else if (nbSmeltcoins === 3500) {
             await this.Smeltcoins3500.click()
             await this.ouvrirPanier()
-
         }
     }
 
@@ -41,13 +43,19 @@ export class PanierSmeltcoins {
     }
 
     async fermerPanier() {
+
         await this.recapitulatifPanier.fermerPanier.click()
         await expect(this.recapitulatifPanier.fermerPanier).toBeHidden()
     }
 
 
-    async retraitPanier(position) {
-        await this.recapitulatifPanier.boutonsDeRetrait3500.click()
+    async retraitPanier(elementRetire) {
+        if (elementRetire === '3500 smeltcoins') {
+            await this.elementASupprimer.retrait3500.click()
+
+        } else if (elementRetire === 'garde elite') {
+            await this.elementASupprimer.retraitEliteGrades.click()
+        }
     }
 
     async validerPanier(email = 'override@maximemougel.dev') {
