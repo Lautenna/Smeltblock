@@ -30,7 +30,7 @@ Les cas de test sont écrits dans **Squash TM** (outil de gestion de cas de test
 | Panier | `TC_PANI` | Mise à jour du panier en Smeltcoins |
 | Cadeaux | `TC_CADE` | Cadeau de Smeltcoins ou de grade pour un ami |
 | Paiement | `TC_PAIE` | Paiement réussi ou en échec via le formulaire Stripe, validation bloquée si e-mail ou case manquant |
-| Cookies | – | Fermeture de la pop-up de cookies (composant partagé par les autres tests) |
+| Cookies | `TC_COOK` | Fermeture de la pop-up de cookies (composant partagé par les autres tests) |
 
 ## Stack
 
