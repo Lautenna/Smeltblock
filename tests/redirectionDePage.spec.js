@@ -8,40 +8,47 @@ test.beforeEach(async ({ page }) => {
 
 })
 
-test('TC_REDI_001 Redirection vers les réseaux sociaux depuis le pied de page', async ({ page }) => {
-
+test('TC_REDI_001a Redirection vers Facebook depuis le pied de page', async ({ page }) => {
     const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo Facebook en bas de page', async () => {
         const facebookPage = await redirectionPage.piedDePage.ouvrirFacebook()
         await expect(facebookPage).toHaveURL("https://www.facebook.com/SmeltBlock/")
-
+        await facebookPage.close()
     })
+})
 
+test('TC_REDI_001b Redirection vers Instagram depuis le pied de page', async ({ page }) => {
+    const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo instagram en bas de page', async () => {
-        await page.goto('');
         const instagramPage = await redirectionPage.piedDePage.ouvrirInstagram()
         await expect(instagramPage).toHaveURL(/instagram\.com/)
+        await instagramPage.close()
     })
+})
 
+test('TC_REDI_001c Redirection vers TikTok depuis le pied de page', async ({ page }) => {
+    const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo tiktok en bas de page', async () => {
-        await page.goto('');
         const tiktokPage = await redirectionPage.piedDePage.ouvrirTiktok()
         await expect(tiktokPage).toHaveURL("https://www.tiktok.com/@smeltblockfr")
-
+        await tiktokPage.close()
     })
+})
 
+test('TC_REDI_001d Redirection vers Discord depuis le pied de page', async ({ page }) => {
+    const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo discord en bas de page', async () => {
-        await page.goto('');
         const discordPage = await redirectionPage.piedDePage.ouvrirDiscord()
         await expect(discordPage).toHaveURL("https://discord.com/invite/smeltblock")
-
+        await discordPage.close()
     })
+})
 
+test('TC_REDI_001e Redirection vers le site du développeur depuis le pied de page', async ({ page }) => {
+    const redirectionPage = new RedirectionPage(page);
     await test.step('Étant donné un visiteur peut cliquer sur le logo site du developpeur en bas de page', async () => {
-        await page.goto('');
         await redirectionPage.piedDePage.ouvrirSiteDeveloppeur()
         await expect(page).toHaveURL("https://maximemougel.dev/")
-
     })
 })
 
