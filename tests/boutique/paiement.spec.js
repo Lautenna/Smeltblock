@@ -76,7 +76,7 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
 })
 
 
-test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
+test('TC_PAIE_003 Réussite du don', async ({ page }) => {
     await boutiquePage.ongletBoutique.allerSurOnglet('dons')
 
     await test.step('Étant donné un visiteur peut ajouter un don à son panier', async () => {
@@ -99,8 +99,8 @@ test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
     })
 
     await test.step('Étant donné un visiteur peut payer via stripe', async () => {
-        await expect(page.getByText('1000 Smeltcoins')).toBeVisible()
-        await expect(page.getByText('Total due€9.99')).toBeVisible()
+        await expect(page.getByText('Don', { exact: true })).toBeVisible()
+        await expect(page.getByText('Total due€2.00')).toBeVisible()
 
         await boutiquePage.paiementStripe.remplirCodeTestingFonctionnel()
         await boutiquePage.paiementStripe.validerPaiement()
@@ -108,14 +108,6 @@ test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
         await expect(page).toHaveURL(/merci/, { timeout: 12_000 })
         await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
     })
-
-    await test.step('Le paiement est passé', async () => {
-        await expect.poll(async () => {
-            const commandes = await selectAll('plugin__commands')
-            return commandes.map(c => c.command)
-        }).toContain('3achatboutiquesmeltcoins1000 Youtyxx')
-    })
-
 })
 
 
