@@ -33,7 +33,6 @@ export async function closeDb() {
   }
 }
 
-// rows = tableau d'objets de mêmes clés → 1 seul batch INSERT
 export async function insertMany(table, rows) {
   if (!rows.length) return;
   const cols = Object.keys(rows[0]);
@@ -45,21 +44,7 @@ export async function deleteWhere(table, column, values) {
   return getPool().query(`DELETE FROM \`${table}\` WHERE \`${column}\` IN (?)`, [values]);
 }
 
-// Supprime la dernière ligne d'une table (même logique que selectLast) et retourne { affectedRows }
-// orderBy : colonne qui sert à définir « la dernière » (id auto-incrémenté ou date)
-// where   : filtre optionnel { colonne: valeur }, ex. { player_uuid: '...' }
-export async function deleteLast(table, orderBy = 'id', where = {}) {
-  const cols = Object.keys(where);
-  const clause = cols.length ? ` WHERE ${cols.map(c => `\`${c}\` = ?`).join(' AND ')}` : '';
-  return getPool().query(
-    `DELETE FROM \`${table}\`${clause} ORDER BY \`${orderBy}\` DESC LIMIT 1`,
-    cols.map(c => where[c])
-  );
-}
 
-// Retourne la dernière ligne d'une table (objet) ou undefined si la table est vide.
-// orderBy : colonne qui sert à définir « la dernière » (id auto-incrémenté ou date)
-// where   : filtre optionnel { colonne: valeur }, ex. { player_uuid: '...' }
 export async function selectLast(table, orderBy = 'id', where = {}) {
   const cols = Object.keys(where);
   const clause = cols.length ? ` WHERE ${cols.map(c => `\`${c}\` = ?`).join(' AND ')}` : '';
@@ -69,3 +54,14 @@ export async function selectLast(table, orderBy = 'id', where = {}) {
   );
   return rows[0];
 }
+
+
+export async function deleteAll(table) {
+  return getPool().query(`DELETE FROM \`${table}\``);
+}
+
+
+export async function selectAll(table, orderBy = 'id') {
+  return getPool().query(`SELECT * FROM \`${table}\` ORDER BY \`${orderBy}\` ASC`);
+}
+

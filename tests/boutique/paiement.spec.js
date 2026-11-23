@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 import { BoutiquePage } from '../../pages/BoutiquePage.js';
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
-import { selectLast, deleteLast } from '../helpers/db.js';
+import { selectAll, deleteAll } from '../helpers/db.js';
 
 let boutiquePage;
 test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
-    await deleteLast('plugin__commands');
+    await deleteAll('plugin__commands');
     await page.goto('/boutique');
     await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
     await boutiquePage.authentification.seConnecterBoutique()
@@ -39,8 +39,10 @@ test('TC_PAIE_001 Réussite du paiement', async ({ page }) => {
     })
 
     await test.step('Le paiement est passé', async () => {
-        const paimentPanier = await selectLast('plugin__commands', 'id')
-        await expect(paimentPanier.command).toEqual('3achatboutiquesmeltcoins1000 Youtyxx')
+        await expect.poll(async () => {
+            const commandes = await selectAll('plugin__commands')
+            return commandes.map(c => c.command)
+        }).toContain('3achatboutiquesmeltcoins1000 Youtyxx')
     })
 })
 
@@ -67,9 +69,9 @@ test('TC_PAIE_002 Échec du paiement', async ({ page }) => {
         await expect(boutiquePage.paiementStripe.stripeFormulaire.getByTestId('payment-accordion-wrapper')).toContainText('Your card was declined.', { timeout: 20_000 });
     })
 
-    await test.step('Le paiement est passé', async () => {
-        const paimentPanier = await selectLast('plugin__commands', 'id')
-        await expect(paimentPanier.command).not.toEqual('3achatboutiquesmeltcoins1000 Youtyxx')
+    await test.step("Le paiement n'est pas passé", async () => {
+        const commandes = await selectAll('plugin__commands')
+        expect(commandes.map(c => c.command)).not.toContain('3achatboutiquesmeltcoins1000 Youtyxx')
     })
 })
 
@@ -108,9 +110,10 @@ test.fixme('TC_PAIE_003 Réussite du don', async ({ page }) => {
     })
 
     await test.step('Le paiement est passé', async () => {
-        const paimentPanier = await selectLast('plugin__commands', 'id')
-        console.log(paimentPanier)
-        await expect(paimentPanier.command).toEqual('3achatboutiquesmeltcoins1000 Youtyxx')
+        await expect.poll(async () => {
+            const commandes = await selectAll('plugin__commands')
+            return commandes.map(c => c.command)
+        }).toContain('3achatboutiquesmeltcoins1000 Youtyxx')
     })
 
 })

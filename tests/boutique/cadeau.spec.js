@@ -1,10 +1,11 @@
 import { test, expect } from '@playwright/test';
 import { BoutiquePage } from '../../pages/BoutiquePage.js';
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
-import { selectLast, deleteLast } from '../helpers/db.js';
+import { selectAll, deleteAll } from '../helpers/db.js';
 
 let boutiquePage;
 test.beforeEach(async ({ page }) => {
+    await deleteAll('plugin__commands')
     boutiquePage = new BoutiquePage(page);
     await page.goto('/boutique');
     await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
@@ -45,9 +46,10 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
     })
 
     await test.step('Le paiement est passé', async () => {
-        const paimentPanier = await selectLast('plugin__commands', 'id')
-        console.log(paimentPanier)
-        await expect(paimentPanier.command).toEqual('3achatboutiquesmeltcoins1000 Yvanor')
+        await expect.poll(async () => {
+            const commandes = await selectAll('plugin__commands')
+            return commandes.map(c => c.command)
+        }).toContain('3achatboutiquesmeltcoins1000 Yvanor')
     })
 
 })
@@ -91,9 +93,10 @@ test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
     })
 
     await test.step('Le paiement est passé', async () => {
-        const paimentPanier = await selectLast('plugin__commands', 'id')
-        console.log(paimentPanier)
-        await expect(paimentPanier.command).toEqual('3achatboutiqueelite Yvanor')
-    })
+    await expect.poll(async () => {
+        const commandes = await selectAll('plugin__commands')
+        return commandes.map(c => c.command)
+    }).toContain('3achatboutiqueelite Yvanor')
+})
 
 })

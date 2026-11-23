@@ -2,12 +2,12 @@
 import { test, expect } from '@playwright/test';
 import { BoutiquePage } from '../../pages/BoutiquePage.js';
 import { CookiesPopup } from '../../pages/components/CookiesPopup.js';
-import { selectLast, deleteLast } from '../helpers/db.js';
+import { deleteAll } from '../helpers/db.js';
 
 let boutiquePage;
 test.beforeEach(async ({ page }) => {
     boutiquePage = new BoutiquePage(page);
-    await deleteLast('plugin__commands');
+    await deleteAll('plugin__commands');
     await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
     await (new CookiesPopup(page)).refuserCookiesEtAttendreFermeture()
     await boutiquePage.authentification.seConnecterBoutique()
