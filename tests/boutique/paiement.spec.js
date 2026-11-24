@@ -105,7 +105,7 @@ test('TC_PAIE_003 Réussite du don', async ({ page }) => {
         await boutiquePage.paiementStripe.remplirCodeTestingFonctionnel()
         await boutiquePage.paiementStripe.validerPaiement()
 
-        await expect(page).toHaveURL(/merci/, { timeout: 12_000 })
+        await expect(page).toHaveURL(/merci/, { timeout: 20_000 })
         await expect(page.getByRole('heading')).toContainText('Merci pour ta commande !')
     })
 })

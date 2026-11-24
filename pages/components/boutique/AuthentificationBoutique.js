@@ -15,8 +15,12 @@ export class AuthentificationBoutique {
     }
 
     async seConnecterBoutique(pseudo = 'Youtyxx', pseudoAmi = '') {
-        await this.boutonSeConnecterPage.click()
-        await expect(this.champPseudo).toBeEnabled()
+        await expect(async () => {
+            if (!(await this.champPseudo.isVisible())) {
+                await this.boutonSeConnecterPage.click()
+            }
+            await expect(this.champPseudo).toBeEnabled({ timeout: 2000 })
+        }).toPass({ timeout: 15_000 })
         await this.champPseudo.fill(pseudo)
         await this.boutonContinuer.click()
         if (pseudoAmi !== '') {
@@ -24,10 +28,11 @@ export class AuthentificationBoutique {
             await expect(this.champPseudoAmi).toBeEnabled()
             await this.champPseudoAmi.fill(pseudoAmi)
             await this.validerPseudoAmi.click()
+            await expect(this.validerPseudoAmi).toBeHidden()
+
         }
         await this.fermerPanier.click()
-        await expect(this.boutonSeConnecterPage).toContainText(pseudo)
-
+        await expect(this.boutonSeConnecterPage).toContainText(pseudoAmi || pseudo)
     }
 
 

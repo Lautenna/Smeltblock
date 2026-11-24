@@ -1,3 +1,5 @@
+import { expect } from '@playwright/test'
+
 export class BarreNavigation {
     /** @param {import("@playwright/test").Page} page */
     constructor(page) {
@@ -8,7 +10,11 @@ export class BarreNavigation {
     }
 
     async ouvrirLien(libelle) {
-        await this.barre.getByRole('link', { name: libelle, exact: true }).click()
+        const lien = this.barre.getByRole('link', { name: libelle, exact: true })
+        await this.page.waitForLoadState('load')
+        const urlAttendue = new URL(await lien.getAttribute('href'), this.page.url()).href
+        await lien.click()
+        await expect(this.page).toHaveURL(urlAttendue, { timeout: 10_000 })
     }
 
     async ouvrirDiscord() {

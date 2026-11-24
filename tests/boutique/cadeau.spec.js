@@ -16,7 +16,7 @@ test('TC_CADE_001 Cadeau de Smeltcoins pour un ami', async ({ page }) => {
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide sur la page boutique et ajouter un ami', async () => {
         await boutiquePage.ongletBoutique.allerSurOnglet('smeltcoins')
         await boutiquePage.authentification.seConnecterBoutique('Youtyxx', 'Yvanor')
-        await expect(page.getByText('Yvanor')).toBeVisible();
+        await expect(boutiquePage.authentification.boutonSeConnecterPage).toContainText('Yvanor')
     })
 
     await test.step('Étant donné un visiteur peut ajouter des Smeltcoins à son panier', async () => {
@@ -58,7 +58,7 @@ test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
     await test.step('Étant donné un visiteur peut se connecter avec un pseudo Minecraft valide sur la page boutique et ajouter un ami', async () => {
         await boutiquePage.ongletBoutique.allerSurOnglet('grades')
         await boutiquePage.authentification.seConnecterBoutique('Youtyxx', 'Yvanor')
-        await expect(page.getByText('Yvanor')).toBeVisible();
+        await expect(boutiquePage.authentification.boutonSeConnecterPage).toContainText('Yvanor')
     })
 
     await test.step('Étant donné un visiteur peut voir son grade déja possédé', async () => {
@@ -93,10 +93,10 @@ test("TC_CADE_002 Cadeau d'un grade pour un ami", async ({ page }) => {
     })
 
     await test.step('Le paiement est passé', async () => {
-    await expect.poll(async () => {
-        const commandes = await selectAll('plugin__commands')
-        return commandes.map(c => c.command)
-    }).toContain('3achatboutiqueelite Yvanor')
-})
+        await expect.poll(async () => {
+            const commandes = await selectAll('plugin__commands')
+            return commandes.map(c => c.command)
+        }).toContain('3achatboutiqueelite Yvanor')
+    })
 
 })

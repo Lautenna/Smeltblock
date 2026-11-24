@@ -4,7 +4,7 @@ export class Grades {
         this.page = page;
         this.boutons = {
             elite: page.getByTestId('grade-add-4'),
-            eliteOffert: page.getByRole('button', { name: 'OFFRIR ÉLITE' }),
+            eliteOffert: page.getByTestId('grade-add-4'),
             mvpPlus: page.getByTestId('grade-add-3'),
             autresGrades: page.getByRole('switch', { name: 'Grades spéciaux' })
 
